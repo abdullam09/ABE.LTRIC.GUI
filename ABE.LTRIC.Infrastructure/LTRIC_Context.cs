@@ -16,5 +16,6 @@ namespace ABE.LTRIC.Infrastructure
         public DbSet<Company> Companies { get; set; }
         public DbSet<Doc> Docs { get; set; }
         public DbSet<DocDtl> DocDtls { get; set; }
+        public DbSet<Setting> Settings { get; set; }
     }
 }
