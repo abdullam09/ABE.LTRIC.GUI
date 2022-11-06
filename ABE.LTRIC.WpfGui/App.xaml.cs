@@ -1,8 +1,12 @@
-﻿using ABE.LTRIC.Infrastructure;
+﻿using ABE.LTRIC.Core.Interfaces;
+using ABE.LTRIC.Infrastructure;
+using ABE.LTRIC.Infrastructure.Interfaces;
+using ABE.LTRIC.Infrastructure.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
+using System.CodeDom;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
@@ -22,7 +26,14 @@ namespace ABE.LTRIC.WpfGui
 
         public IConfiguration? Configuration { get; private set; }
 
-        protected override void OnStartup(StartupEventArgs e)
+        public App()
+        {
+            ServiceCollection services = new ServiceCollection();
+            ConfigureServices(services);
+            ServiceProvider = services.BuildServiceProvider();
+        }
+
+        protected void OnStartup(object sender, StartupEventArgs e)
         {
             var builder = new ConfigurationBuilder()
              .SetBasePath(Directory.GetCurrentDirectory())
@@ -35,11 +46,14 @@ namespace ABE.LTRIC.WpfGui
             ServiceProvider = serviceCollection.BuildServiceProvider();
 
             var mainWindow = ServiceProvider.GetRequiredService<MainWindow>();
+            mainWindow.Show();
         }
 
         private void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<LTRIC_Context>(item => item.UseSqlServer(Configuration.GetConnectionString("LTRIC_Database")));
+            services.AddTransient(typeof(IRepository<>), typeof(Repository<>));
+            services.AddTransient<ICompanyRepository, CompanyRepository>();
             services.AddTransient(typeof(MainWindow));
         }
     }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ABE.LTRIC.Infrastructure.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,9 +21,17 @@ namespace ABE.LTRIC.WpfGui
     /// </summary>
     public partial class MainWindow : Window
     {
-        public MainWindow()
+        private ICompanyRepository _companyRepository;
+        public MainWindow(ICompanyRepository companyRepository)
         {
+            _companyRepository = companyRepository;
             InitializeComponent();
         }
+
+        private async void btnAddTest_Click(object sender, RoutedEventArgs e)
+        {
+            var all = (await _companyRepository.GetAll()).ToList();
+        }
+
     }
 }
