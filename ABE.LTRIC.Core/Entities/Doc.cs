@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ABE.LTRIC.Infrastructure.Entities
+namespace ABE.LTRIC.Core.Entities
 {
     public class Doc : EntityBase
     {

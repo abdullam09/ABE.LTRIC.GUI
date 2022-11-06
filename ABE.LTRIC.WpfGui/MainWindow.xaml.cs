@@ -1,10 +1,13 @@
-﻿using ABE.LTRIC.Infrastructure.Interfaces;
+﻿using ABE.LTRIC.Core.Specifications;
+using ABE.LTRIC.Infrastructure.Interfaces;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Collections;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
@@ -30,6 +33,8 @@ namespace ABE.LTRIC.WpfGui
 
         private async void btnAddTest_Click(object sender, RoutedEventArgs e)
         {
+            var custmersByName = new CompanyByName("test1");
+            var customers = (await _companyRepository.Get(custmersByName));
             var all = (await _companyRepository.GetAll()).ToList();
         }
 

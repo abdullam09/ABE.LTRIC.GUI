@@ -1,7 +1,10 @@
 ﻿using ABE.LTRIC.Core.Data;
 using ABE.LTRIC.Core.Interfaces;
+using Ardalis.Specification;
+using Ardalis.Specification.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -29,14 +32,19 @@ namespace ABE.LTRIC.Infrastructure.Services
             await _context.SaveChangesAsync();
         }
 
-        public async Task<IEnumerable<T>> GetAll()
+        public async Task<IList<T>> GetAll()
         {
-            return await Task.FromResult(_context.Set<T>().AsEnumerable());
+            return await Task.FromResult(_context.Set<T>().ToList());
         }
 
         public async Task Update(T entity)
         {
             await _context.SaveChangesAsync();
+        }
+
+        public async Task<IList> Get(ISpecification<T> specification)
+        {
+            return (await Task.FromResult(SpecificationEvaluator.Default.GetQuery(_context.Set<T>().AsQueryable(), specification))).ToList();
         }
     }
 }

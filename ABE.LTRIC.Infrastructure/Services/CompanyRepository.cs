@@ -1,4 +1,4 @@
-﻿using ABE.LTRIC.Infrastructure.Entities;
+﻿using ABE.LTRIC.Core.Entities;
 using ABE.LTRIC.Infrastructure.Interfaces;
 using System;
 using System.Collections.Generic;
