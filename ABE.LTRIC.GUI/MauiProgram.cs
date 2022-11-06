@@ -1,4 +1,7 @@
-﻿namespace ABE.LTRIC.GUI;
+﻿using Microsoft.Extensions.Configuration;
+using System.Reflection;
+
+namespace ABE.LTRIC.GUI;
 
 public static class MauiProgram
 {
@@ -13,6 +16,15 @@ public static class MauiProgram
 				fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
 			});
 
-		return builder.Build();
+        var a = Assembly.GetExecutingAssembly();
+        using var stream = a.GetManifestResourceStream("ABE.LTRIC.GUI.appsettings.json");
+
+        var config = new ConfigurationBuilder()
+                    .AddJsonStream(stream)
+					
+                    .Build();
+
+        builder.Configuration.AddConfiguration(config);
+        return builder.Build();
 	}
 }
