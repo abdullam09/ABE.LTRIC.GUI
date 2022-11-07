@@ -16,26 +16,29 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using ABE.LTRIC.WpfGui.ViewModels;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace ABE.LTRIC.WpfGui
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindowView : Window
     {
-        private ICompanyRepository _companyRepository;
-        public MainWindow(ICompanyRepository companyRepository)
+        public MainWindowView()
         {
-            _companyRepository = companyRepository;
+            DataContext = App.Current.ServiceProvider.GetService<MainWindowViewModel>();
             InitializeComponent();
         }
 
-        private async void btnAddTest_Click(object sender, RoutedEventArgs e)
+        private void sidebar_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            var custmersByName = new CompanyByName("test1");
-            var customers = (await _companyRepository.Get(custmersByName));
-            var all = (await _companyRepository.GetAll()).ToList();
+
+            var selected = sidebar.SelectedItem as NavButton;
+
+            navframe.Navigate(selected.Navlink);
+
         }
 
     }
