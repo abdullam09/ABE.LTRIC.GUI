@@ -63,6 +63,11 @@ namespace ABE.LTRIC.WpfGui
             services.AddSingleton<MainWindowView>();
             //ViewModels
             services.AddSingleton<MainWindowViewModel>();
+            services.AddSingleton<CompaniesViewModel>();
+            services.AddSingleton<DocsViewModel>();
+            services.AddSingleton<SettingsViewModel>();
+            services.AddSingleton<ReportsViewModel>();
+
         }
     }
 }

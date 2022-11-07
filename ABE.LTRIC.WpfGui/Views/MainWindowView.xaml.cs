@@ -34,11 +34,8 @@ namespace ABE.LTRIC.WpfGui
 
         private void sidebar_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-
             var selected = sidebar.SelectedItem as NavButton;
-
             navframe.Navigate(selected.Navlink);
-
         }
 
     }
