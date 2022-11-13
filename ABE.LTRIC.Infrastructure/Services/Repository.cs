@@ -46,5 +46,17 @@ namespace ABE.LTRIC.Infrastructure.Services
         {
             return (await Task.FromResult(SpecificationEvaluator.Default.GetQuery(_context.Set<T>().AsQueryable(), specification))).ToList();
         }
+
+        public async Task SaveAll(IList<T> entites)
+        {
+            foreach(var entity in entites)
+            {
+                if(entity.Id==0)
+                {
+                    _context.Set<T>().Add(entity);
+                }
+            }
+            await _context.SaveChangesAsync();
+        }
     }
 }

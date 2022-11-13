@@ -4,10 +4,68 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:ABE.LTRIC.WpfGui.ViewModels"
+             xmlns:domain="clr-namespace:ABE.LTRIC.WpfGui.Domain"
+             xmlns:Behaviors="http://schemas.microsoft.com/xaml/behaviors"
              d:DataContext="{d:DesignInstance Type=local:MainWindowViewModel}"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
-        <TextBlock Text="Companies"/>
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             TextElement.Foreground="{DynamicResource MaterialDesignDarkForeground}"
+             TextElement.FontWeight="Regular"
+             TextElement.FontSize="13"
+             TextOptions.TextFormattingMode="Ideal" 
+             TextOptions.TextRenderingMode="Auto"        
+             Background="{DynamicResource MaterialDesignPaper}"
+             FontFamily="{DynamicResource MaterialDesignFont}"
+             d:DesignHeight="450" d:DesignWidth="500">
+    <Behaviors:Interaction.Triggers>
+        <Behaviors:EventTrigger EventName="Loaded">
+            <Behaviors:InvokeCommandAction Command="{Binding LoadCommand}"/>
+        </Behaviors:EventTrigger>
+    </Behaviors:Interaction.Triggers>
+    <Grid HorizontalAlignment="Left" Margin="20,0,20,0">
+        <StackPanel>
+            <TextBlock
+  Padding="0,16"
+  VerticalAlignment="Center"
+  Style="{StaticResource MaterialDesignHeadline4TextBlock }"
+  Text="Companies" />
+            <Separator Width="500" HorizontalAlignment="Left"/>
+            <StackPanel HorizontalAlignment="Left" Orientation="Horizontal">
+                <Button Margin="10,15,0,0" Content="ADD"
+                        materialDesign:ElevationAssist.Elevation="Dp16"
+  Style="{StaticResource MaterialDesignPaperLightButton}"
+  ToolTip="Add New Company" Command="{Binding AddNewCompanyCommand}"/>
+                <Button Margin="10,15,0,0" Content="SAVE"
+                        materialDesign:ElevationAssist.Elevation="Dp16"
+  Style="{StaticResource MaterialDesignPaperLightButton}"
+  ToolTip="Save Changes" Command="{Binding SaveCompaniesCommand}"/>
+            </StackPanel>
+            <ListView ItemsSource="{Binding Companies}" Margin="0,10,0,0" ScrollViewer.VerticalScrollBarVisibility="Visible" Name="lvCompanies"
+          ScrollViewer.CanContentScroll="False" Height="520" >
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <Grid Width="800">
+                            <StackPanel>
+                                <TextBox FontSize="20" materialDesign:HintAssist.Hint="Company Name" Style="{StaticResource MaterialDesignFloatingHintTextBox}" VerticalAlignment="Center">
+                                    <TextBox.Text>
+                                        <Binding Path="Name" UpdateSourceTrigger="PropertyChanged">
+                                            <Binding.ValidationRules>
+                                                <domain:NotEmptyValidationRule ValidatesOnTargetUpdated="True"/>
+                                            </Binding.ValidationRules>
+                                        </Binding>
+                                    </TextBox.Text>
+                                </TextBox>
+                            </StackPanel>
+                            <StackPanel HorizontalAlignment="Right">
+                                <Button Style="{StaticResource MaterialDesignFloatingActionMiniDarkButton}" ToolTip="Delete" HorizontalAlignment="Right" Command="{Binding ElementName=lvCompanies,Path=DataContext.DeleteCompanyCommand}" CommandParameter="{Binding}">
+                                    <materialDesign:PackIcon Width="25" Height="25" Kind="Delete" />
+                                </Button>
+                            </StackPanel>
+                        </Grid>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </StackPanel>
     </Grid>
+
 </UserControl>

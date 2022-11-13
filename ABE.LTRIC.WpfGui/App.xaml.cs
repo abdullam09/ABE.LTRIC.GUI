@@ -2,7 +2,10 @@
 using ABE.LTRIC.Infrastructure;
 using ABE.LTRIC.Infrastructure.Interfaces;
 using ABE.LTRIC.Infrastructure.Services;
+using ABE.LTRIC.WpfGui.Interfaces;
+using ABE.LTRIC.WpfGui.Services;
 using ABE.LTRIC.WpfGui.ViewModels;
+using MaterialDesignThemes.Wpf;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -59,6 +62,8 @@ namespace ABE.LTRIC.WpfGui
             services.AddTransient<IDocRepository, DocRepository>();
             services.AddTransient<IDocDtlRepository, DocDtlRepository>();
             services.AddTransient<ISettingRepository, SettingRepository>();
+            services.AddSingleton<ISnackbarMessageQueue, SnackbarMessageQueue>();
+            services.AddSingleton<IProgressbarService, ProgressbarService>();
             //Views
             services.AddSingleton<MainWindowView>();
             //ViewModels

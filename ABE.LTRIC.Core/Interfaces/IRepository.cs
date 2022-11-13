@@ -15,6 +15,7 @@ namespace ABE.LTRIC.Core.Interfaces
         Task Create(T entity);
         Task Update(T entity);
         Task Delete(T entity);
+        Task SaveAll(IList<T> entites);
         Task<IList> Get(ISpecification<T> specification);
     }
 }
