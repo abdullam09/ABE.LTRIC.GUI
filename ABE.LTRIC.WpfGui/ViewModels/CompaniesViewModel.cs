@@ -46,6 +46,14 @@ namespace ABE.LTRIC.WpfGui.ViewModels
         [RelayCommand]
         public async Task SaveCompanies()
         {
+            foreach (var company in Companies)
+            {
+                if (string.IsNullOrEmpty(company.Name))
+                {
+                    _snackbarMessageQueue.Enqueue("Please fill in all required fields.");
+                    return;
+                }
+            }
             _progressbarService.SetProgressbar("please wait");
             await _companyRepository.SaveAll(Companies);
             _snackbarMessageQueue.Enqueue("Companies has been saved successfully.");
