@@ -14,6 +14,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace ABE.LTRIC.WpfGui.ViewModels
 {
@@ -43,15 +44,18 @@ namespace ABE.LTRIC.WpfGui.ViewModels
         [ObservableProperty]
         private bool searchEnablePaymentDate;
         [ObservableProperty]
-        private DateTime searchFromPaymentDate;
+        private DateTime searchFromPaymentDate = DateTime.Now;
         [ObservableProperty]
-        private DateTime searchToPaymentDate;
+        private DateTime searchToPaymentDate = DateTime.Now;
         [ObservableProperty]
         private decimal? searchAmount;
         [ObservableProperty]
         private string searchIsComplete;
         [ObservableProperty]
         private string searchIsOdComplete;
+
+        [ObservableProperty]
+        private Doc selectedDoc;
 
 
         public DocsViewModel(ICompanyRepository companyRepository, ISnackbarMessageQueue snackbarMessageQueue, IProgressbarService progressbarService, IDocRepository docRepository)
@@ -83,6 +87,20 @@ namespace ABE.LTRIC.WpfGui.ViewModels
         {
             var searchDocs = new DocsSearchSp(searchCompanyId, searchDocNum, searchEnablePaymentDate, searchFromPaymentDate, searchToPaymentDate, searchAmount, searchIsComplete, searchIsOdComplete);
             Docs = new ObservableCollection<Doc>((List<Doc>)await _docRepository.Get(searchDocs));
+        }
+
+        [RelayCommand]
+        public async Task DeleteDoc(Doc doc)
+        {
+            if (MessageBox.Show("Are you sure you want to delete this document?", "LTRIC", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
+            {
+                _progressbarService.SetProgressbar("please wait");
+                await _docRepository.Delete(doc);
+                await SearchDocs();
+                _snackbarMessageQueue.Enqueue("Document has been deleted successfully");
+                _progressbarService.ClearProgressbar();
+            }
+
         }
 
         [RelayCommand]

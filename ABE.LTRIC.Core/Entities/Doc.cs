@@ -10,6 +10,7 @@ namespace ABE.LTRIC.Core.Entities
     public class Doc : EntityBase
     {
         public int CompanyId { get; set; }
+        public Company Company {get;set;}
         public string DocNumber { get; set; }
         public DateTime PaymentDate { get; set; }
         public DateTime ExpectedDueDate { get; set; }
