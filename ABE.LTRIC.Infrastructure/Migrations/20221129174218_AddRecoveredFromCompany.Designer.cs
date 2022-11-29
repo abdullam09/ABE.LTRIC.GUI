@@ -4,6 +4,7 @@ using ABE.LTRIC.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ABE.LTRIC.Infrastructure.Migrations
 {
     [DbContext(typeof(LTRIC_Context))]
-    partial class LTRIC_ContextModelSnapshot : ModelSnapshot
+    [Migration("20221129174218_AddRecoveredFromCompany")]
+    partial class AddRecoveredFromCompany
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

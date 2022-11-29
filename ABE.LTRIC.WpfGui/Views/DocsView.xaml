@@ -176,35 +176,6 @@
                                 <DataGrid Name="dgDocs" AutoGenerateColumns="False" CanUserAddRows="False" ItemsSource="{Binding Docs}" IsReadOnly="True" Width="970" Height="300" SelectedItem="{Binding SelectedDoc}"
                                           ScrollViewer.CanContentScroll="True" ScrollViewer.HorizontalScrollBarVisibility="Auto">
                                     <DataGrid.Columns>
-                                        <DataGridTextColumn Binding="{Binding Company.Name}" ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}" Header="Company" />
-                                        <DataGridTextColumn Binding="{Binding DocNumber}" ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}" Header="Documnet Number" />
-                                        <materialDesign:DataGridTextColumn ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}" Header="Payment Date">
-                                            <materialDesign:DataGridTextColumn.Binding>
-                                                <Binding Path="PaymentDate">
-                                                </Binding>
-                                            </materialDesign:DataGridTextColumn.Binding>
-                                        </materialDesign:DataGridTextColumn>
-                                        <DataGridTextColumn ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}" Header="Expected Due Date">
-                                            <DataGridTextColumn.Binding>
-                                                <Binding Path="ExpectedDueDate">
-                                                </Binding>
-                                            </DataGridTextColumn.Binding>
-                                        </DataGridTextColumn>
-                                        <DataGridTextColumn ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}" Header="OD Due Date">
-                                            <DataGridTextColumn.Binding>
-                                                <Binding Path="ODDueDate">
-                                                </Binding>
-                                            </DataGridTextColumn.Binding>
-                                        </DataGridTextColumn>
-                                        <DataGridTextColumn Binding="{Binding PrincipleAmount}" ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}" Header="Principle Amount" />
-                                        <DataGridTextColumn ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}" Header="Insert Date">
-                                            <DataGridTextColumn.Binding>
-                                                <Binding Path="InsertDate">
-                                                </Binding>
-                                            </DataGridTextColumn.Binding>
-                                        </DataGridTextColumn>
-                                        <DataGridCheckBoxColumn Binding="{Binding IsEnded}" ElementStyle="{StaticResource MaterialDesignDataGridCheckBoxColumnStyle}" Header="Is Complete"/>
-                                        <DataGridCheckBoxColumn Binding="{Binding IsODEnded}" ElementStyle="{StaticResource MaterialDesignDataGridCheckBoxColumnStyle}" Header="Is OD Complete"/>
                                         <DataGridTemplateColumn>
                                             <DataGridTemplateColumn.Header>
                                                 <TextBlock Text="Actions"/>
@@ -215,21 +186,103 @@
                                                         <Button Style="{StaticResource MaterialDesignIconButton}" ToolTip="Delete" Height="30" Width="30" Command="{Binding ElementName=dgDocs,Path=DataContext.DeleteDocCommand}" CommandParameter="{Binding}">
                                                             <materialDesign:PackIcon Kind="Delete" />
                                                         </Button>
-                                                        <Button Style="{StaticResource MaterialDesignIconButton}" ToolTip="View Details" Height="30" Width="30">
+                                                        <Button Style="{StaticResource MaterialDesignIconButton}" ToolTip="View Details" Height="30" Width="30" Command="{Binding ElementName=dgDocs,Path=DataContext.DocDetailsCommand}" CommandParameter="{Binding}">
                                                             <materialDesign:PackIcon Kind="ViewList" />
+                                                        </Button>
+                                                        <Button Style="{StaticResource MaterialDesignIconButton}" ToolTip="Edit" Height="30" Width="30">
+                                                            <materialDesign:PackIcon Kind="Edit" />
                                                         </Button>
                                                     </StackPanel>
                                                 </DataTemplate>
                                             </DataGridTemplateColumn.CellTemplate>
                                         </DataGridTemplateColumn>
+                                        <DataGridTextColumn Binding="{Binding Company.Name}" ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}" Header="Company" />
+                                        <DataGridTextColumn Binding="{Binding DocNumber}" ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}" Header="Documnet Number" />
+                                        <materialDesign:DataGridTextColumn ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}" Header="Payment Date">
+                                            <materialDesign:DataGridTextColumn.Binding>
+                                                <Binding Path="PaymentDate" StringFormat="d">
+                                                </Binding>
+                                            </materialDesign:DataGridTextColumn.Binding>
+                                        </materialDesign:DataGridTextColumn>
+                                        <DataGridTextColumn ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}" Header="Expected Due Date">
+                                            <DataGridTextColumn.Binding>
+                                                <Binding Path="ExpectedDueDate" StringFormat="d">
+                                                </Binding>
+                                            </DataGridTextColumn.Binding>
+                                        </DataGridTextColumn>
+                                        <DataGridTextColumn ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}" Header="OD Due Date">
+                                            <DataGridTextColumn.Binding>
+                                                <Binding Path="ODDueDate" StringFormat="d">
+                                                </Binding>
+                                            </DataGridTextColumn.Binding>
+                                        </DataGridTextColumn>
+                                        <DataGridTextColumn Binding="{Binding PrincipleAmount,StringFormat='#,#.##'}" ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}" Header="Principle Amount" />
+                                        <DataGridTextColumn ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}" Header="Insert Date">
+                                            <DataGridTextColumn.Binding>
+                                                <Binding Path="InsertDate" StringFormat="d">
+                                                </Binding>
+                                            </DataGridTextColumn.Binding>
+                                        </DataGridTextColumn>
+                                        <DataGridCheckBoxColumn Binding="{Binding IsEnded}" ElementStyle="{StaticResource MaterialDesignDataGridCheckBoxColumnStyle}" Header="Is Complete"/>
+                                        <DataGridCheckBoxColumn Binding="{Binding IsODEnded}" ElementStyle="{StaticResource MaterialDesignDataGridCheckBoxColumnStyle}" Header="Is OD Complete"/>
+
                                     </DataGrid.Columns>
                                 </DataGrid>
                             </ScrollViewer>
                         </StackPanel>
                     </StackPanel>
-
                 </GroupBox>
-
+                
+                <GroupBox Header="Document Details" Margin="5">
+                    <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+                        <DataGrid Name="dgDocDtls" AutoGenerateColumns="False" CanUserAddRows="False" ItemsSource="{Binding DocDtls}" IsReadOnly="True" Width="970" Height="300" SelectedItem="{Binding SelectedDocDtl}"
+                                          ScrollViewer.CanContentScroll="True" ScrollViewer.HorizontalScrollBarVisibility="Auto">
+                            <DataGrid.Columns>
+                                <DataGridTemplateColumn>
+                                    <DataGridTemplateColumn.Header>
+                                        <TextBlock Text="Actions"/>
+                                    </DataGridTemplateColumn.Header>
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <StackPanel Orientation="Horizontal" >
+                                                <Button Style="{StaticResource MaterialDesignIconButton}" ToolTip="Edit" Height="30" Width="30">
+                                                    <materialDesign:PackIcon Kind="Edit" />
+                                                </Button>
+                                            </StackPanel>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                                <DataGridTextColumn ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}" Header="Record Date">
+                                    <DataGridTextColumn.Binding>
+                                        <Binding Path="RecordDate" StringFormat="d">
+                                        </Binding>
+                                    </DataGridTextColumn.Binding>
+                                </DataGridTextColumn>
+                                <DataGridTextColumn ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}" Header="Refund Date">
+                                    <DataGridTextColumn.Binding>
+                                        <Binding Path="RefundDate" StringFormat="d">
+                                        </Binding>
+                                    </DataGridTextColumn.Binding>
+                                </DataGridTextColumn>
+                                <DataGridTextColumn Binding="{Binding EarlySattleToBank,StringFormat='#,#.##'}" ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}" Header="Early Sattle To Bank" />
+                                <DataGridTextColumn Binding="{Binding RecoveredFromCompany,StringFormat='#,#.##'}" ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}" Header="Recovered From Company" />
+                                <DataGridTextColumn Binding="{Binding LTR_Intrest,StringFormat='#,#.##'}" ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}" Header="LRT Intrest" />
+                                <DataGridTextColumn Binding="{Binding OD_Interest,StringFormat='#,#.##'}" ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}" Header="OD Interest" />
+                                <DataGridTextColumn Binding="{Binding LTR_Total,StringFormat='#,#.##'}" ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}" Header="LRT Total" />
+                                <DataGridTextColumn Binding="{Binding OD_Total,StringFormat='#,#.##'}" ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}" Header="OD Total" />
+                                <DataGridTextColumn Binding="{Binding Total_Intrest,StringFormat='#,#.##'}" ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}" Header="Total Intrest" />
+                                <DataGridTextColumn Binding="{Binding TotalChargeToBank,StringFormat='#,#.##'}" ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}" Header="Total Charge To Bank" />
+                                <DataGridTextColumn Binding="{Binding TotalChargeToCompany,StringFormat='#,#.##'}" ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}" Header="Total Charge To Company" />
+                                <DataGridTextColumn ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}" Header="Insert Date">
+                                    <DataGridTextColumn.Binding>
+                                        <Binding Path="InsertDate" StringFormat="d">
+                                        </Binding>
+                                    </DataGridTextColumn.Binding>
+                                </DataGridTextColumn>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </ScrollViewer>
+                </GroupBox>
             </StackPanel>
         </ScrollViewer>
     </Grid>

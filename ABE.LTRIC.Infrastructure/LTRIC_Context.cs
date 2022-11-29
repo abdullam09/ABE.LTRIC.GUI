@@ -13,6 +13,7 @@ namespace ABE.LTRIC.Infrastructure
         public LTRIC_Context(DbContextOptions<LTRIC_Context> options) : base(options)
         {
         }
+
         public DbSet<Company> Companies { get; set; }
         public DbSet<Doc> Docs { get; set; }
         public DbSet<DocDtl> DocDtls { get; set; }

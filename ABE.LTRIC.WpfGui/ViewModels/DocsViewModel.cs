@@ -24,6 +24,7 @@ namespace ABE.LTRIC.WpfGui.ViewModels
         private readonly ISnackbarMessageQueue _snackbarMessageQueue;
         private readonly IDocRepository _docRepository;
         private IProgressbarService _progressbarService;
+        private readonly IDocDtlRepository _docDtlRepository;
 
         [ObservableProperty]
         private Document document;
@@ -33,6 +34,9 @@ namespace ABE.LTRIC.WpfGui.ViewModels
 
         [ObservableProperty]
         private ObservableCollection<Doc> docs;
+
+        [ObservableProperty]
+        private ObservableCollection<DocDtl> docDtls;
 
         [ObservableProperty]
         private ObservableCollection<string> isCompletes;
@@ -57,13 +61,17 @@ namespace ABE.LTRIC.WpfGui.ViewModels
         [ObservableProperty]
         private Doc selectedDoc;
 
+        [ObservableProperty]
+        private Doc selectedDocDtl;
 
-        public DocsViewModel(ICompanyRepository companyRepository, ISnackbarMessageQueue snackbarMessageQueue, IProgressbarService progressbarService, IDocRepository docRepository)
+
+        public DocsViewModel(ICompanyRepository companyRepository, ISnackbarMessageQueue snackbarMessageQueue, IProgressbarService progressbarService, IDocRepository docRepository, IDocDtlRepository docDtlRepository)
         {
             _companyRepository = companyRepository;
             _snackbarMessageQueue = snackbarMessageQueue;
             _progressbarService = progressbarService;
             _docRepository = docRepository;
+            _docDtlRepository = docDtlRepository;
         }
 
         [RelayCommand]
@@ -100,6 +108,24 @@ namespace ABE.LTRIC.WpfGui.ViewModels
                 _snackbarMessageQueue.Enqueue("Document has been deleted successfully");
                 _progressbarService.ClearProgressbar();
             }
+        }
+
+        [RelayCommand]
+        public async Task DocDetails(Doc doc)
+        {
+
+            _progressbarService.SetProgressbar("please wait");
+            if (doc.DocDtls != null)
+            {
+                DocDtls = new ObservableCollection<DocDtl>(doc.DocDtls);
+            }
+            else
+            {
+                var docDtlsByDocId = new DocDtlsByDocId(doc.Id);
+                DocDtls = new ObservableCollection<DocDtl>((List<DocDtl>)await _docDtlRepository.Get(docDtlsByDocId));
+            }
+            await Task.CompletedTask;
+            _progressbarService.ClearProgressbar();
 
         }
 

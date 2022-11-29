@@ -1,6 +1,7 @@
 ﻿using ABE.LTRIC.Core.Data;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Reflection.Metadata.Ecma335;
 using System.Text;
@@ -15,6 +16,7 @@ namespace ABE.LTRIC.Core.Entities
         public DateTime RecordDate { get; set; }
         public DateTime RefundDate { get; set; }
         public decimal EarlySattleToBank { get; set; }
+        public decimal RecoveredFromCompany { get; set; }
         public int LTR_Period { get; set; }
         public int OD_Period { get; set; }
         public decimal LTR_Intrest { get; set; }

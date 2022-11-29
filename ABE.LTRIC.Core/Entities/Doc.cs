@@ -1,6 +1,7 @@
 ﻿using ABE.LTRIC.Core.Data;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,6 +21,7 @@ namespace ABE.LTRIC.Core.Entities
         public bool IsODEnded { get; set; }
         public DateTime ODDueDate { get; set; }
         public DateTime InsertDate { get; set; }
+        [ForeignKey("DocId")]
         public ICollection<DocDtl> DocDtls { get; set; }
     }
 }
