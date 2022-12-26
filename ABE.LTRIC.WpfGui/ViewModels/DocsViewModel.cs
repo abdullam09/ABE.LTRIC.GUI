@@ -1,4 +1,5 @@
 ﻿using ABE.LTRIC.Core.Entities;
+using ABE.LTRIC.Core.Interfaces;
 using ABE.LTRIC.Core.Specifications;
 using ABE.LTRIC.Infrastructure.Interfaces;
 using ABE.LTRIC.WpfGui.Interfaces;
@@ -25,6 +26,7 @@ namespace ABE.LTRIC.WpfGui.ViewModels
         private readonly IDocRepository _docRepository;
         private IProgressbarService _progressbarService;
         private readonly IDocDtlRepository _docDtlRepository;
+        private IDocumentService _documentService;
 
         [ObservableProperty]
         private Document document;
@@ -65,13 +67,14 @@ namespace ABE.LTRIC.WpfGui.ViewModels
         private Doc selectedDocDtl;
 
 
-        public DocsViewModel(ICompanyRepository companyRepository, ISnackbarMessageQueue snackbarMessageQueue, IProgressbarService progressbarService, IDocRepository docRepository, IDocDtlRepository docDtlRepository)
+        public DocsViewModel(ICompanyRepository companyRepository, ISnackbarMessageQueue snackbarMessageQueue, IProgressbarService progressbarService, IDocRepository docRepository, IDocDtlRepository docDtlRepository, IDocumentService documentService)
         {
             _companyRepository = companyRepository;
             _snackbarMessageQueue = snackbarMessageQueue;
             _progressbarService = progressbarService;
             _docRepository = docRepository;
             _docDtlRepository = docDtlRepository;
+            _documentService = documentService;
         }
 
         [RelayCommand]
@@ -141,6 +144,30 @@ namespace ABE.LTRIC.WpfGui.ViewModels
             SearchIsComplete = "Any";
             SearchIsOdComplete = "Any";
             await Task.CompletedTask;
+        }
+
+        [RelayCommand]
+        public async Task AddNewDoc()
+        {
+            _progressbarService.SetProgressbar("please wait");
+            var doc = new Doc
+            {
+                Comments = Document.Comments,
+                CompanyId = Document.CompanyId,
+                DocNumber = Document.DocNumber,
+                ExpectedDueDate = Document.ExpectedDueDate,
+                InsertDate = DateTime.Now,
+                IsEnded = Document.IsEnded,
+                IsODEnded = Document.IsODEnded,
+                ODDueDate = Document.ODDueDate,
+                PaymentDate = Document.PaymentDate,
+                PrincipleAmount = Document.PrincipleAmount,
+                DocDtls = new List<DocDtl>(),
+            };
+            await _documentService.ProcessDocument(doc);
+            _snackbarMessageQueue.Enqueue("Document has been created successfully");
+            await SearchDocs();
+            _progressbarService.ClearProgressbar();
         }
     }
 }

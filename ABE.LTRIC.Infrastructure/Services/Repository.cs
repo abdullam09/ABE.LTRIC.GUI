@@ -58,5 +58,11 @@ namespace ABE.LTRIC.Infrastructure.Services
             }
             await _context.SaveChangesAsync();
         }
+
+        public async Task DeleteRange(List<T> entities)
+        {
+            _context.Set<T>().RemoveRange(entities);
+            await _context.SaveChangesAsync();
+        }
     }
 }

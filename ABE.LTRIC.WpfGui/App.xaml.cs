@@ -62,6 +62,7 @@ namespace ABE.LTRIC.WpfGui
             services.AddTransient<IDocRepository, DocRepository>();
             services.AddTransient<IDocDtlRepository, DocDtlRepository>();
             services.AddTransient<ISettingRepository, SettingRepository>();
+            services.AddTransient<IDocumentService, DocumentService>();
             services.AddSingleton<ISnackbarMessageQueue, SnackbarMessageQueue>();
             services.AddSingleton<IProgressbarService, ProgressbarService>();
             //Views

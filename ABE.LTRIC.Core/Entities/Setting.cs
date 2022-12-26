@@ -11,5 +11,6 @@ namespace ABE.LTRIC.Core.Entities
     {
         public string Key { get; set; }
         public string Value { get; set; }
+        public DateTime EffectiveDate { get; set; }
     }
 }
