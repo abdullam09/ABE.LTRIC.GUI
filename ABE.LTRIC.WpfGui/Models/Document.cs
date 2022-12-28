@@ -10,6 +10,8 @@ namespace ABE.LTRIC.WpfGui.Models
     public partial class Document : ObservableObject
     {
         [ObservableProperty]
+        private int id;
+        [ObservableProperty]
         private int companyId;
         [ObservableProperty]
         private string docNumber;

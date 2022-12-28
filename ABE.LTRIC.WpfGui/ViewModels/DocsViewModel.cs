@@ -32,6 +32,11 @@ namespace ABE.LTRIC.WpfGui.ViewModels
         private Document document;
 
         [ObservableProperty]
+        private Document editDocument;
+
+        private Doc editDoc;
+
+        [ObservableProperty]
         private ObservableCollection<Company> companies;
 
         [ObservableProperty]
@@ -65,6 +70,9 @@ namespace ABE.LTRIC.WpfGui.ViewModels
 
         [ObservableProperty]
         private Doc selectedDocDtl;
+
+        [ObservableProperty]
+        private bool isEditDocOpen;
 
 
         public DocsViewModel(ICompanyRepository companyRepository, ISnackbarMessageQueue snackbarMessageQueue, IProgressbarService progressbarService, IDocRepository docRepository, IDocDtlRepository docDtlRepository, IDocumentService documentService)
@@ -133,6 +141,34 @@ namespace ABE.LTRIC.WpfGui.ViewModels
         }
 
         [RelayCommand]
+        public async Task EditDoc(Doc doc)
+        {
+            IsEditDocOpen = true;
+            EditDocument = new Document();
+            EditDocument.Id = doc.Id;
+            EditDocument.DocNumber = doc.DocNumber;
+            EditDocument.Comments = doc.Comments;
+            EditDocument.CompanyId = doc.CompanyId;
+            EditDocument.IsODEnded = doc.IsODEnded;
+            EditDocument.IsEnded = doc.IsEnded;
+            EditDocument.ExpectedDueDate = doc.ExpectedDueDate;
+            EditDocument.PaymentDate = doc.PaymentDate;
+            EditDocument.PrincipleAmount = doc.PrincipleAmount;
+            EditDocument.ODDueDate = doc.ODDueDate;
+            var docDetailsSp = new DocDtlsByDocId(doc.Id);
+            editDoc = doc;
+            editDoc.DocDtls = (List<DocDtl>)await _docDtlRepository.Get(docDetailsSp);
+            await Task.CompletedTask;
+        }
+
+        [RelayCommand]
+        public async Task CloseEditDoc()
+        {
+            IsEditDocOpen = false;
+            await Task.CompletedTask;
+        }
+
+        [RelayCommand]
         public async Task ClearSearchDocs()
         {
             SearchCompanyId = null;
@@ -144,6 +180,27 @@ namespace ABE.LTRIC.WpfGui.ViewModels
             SearchIsComplete = "Any";
             SearchIsOdComplete = "Any";
             await Task.CompletedTask;
+        }
+
+        [RelayCommand]
+        public async Task UpdateDoc()
+        {
+            _progressbarService.SetProgressbar("please wait");
+            editDoc.Comments = EditDocument.Comments;
+            editDoc.IsODEnded = EditDocument.IsODEnded;
+            editDoc.IsEnded = EditDocument.IsEnded;
+            editDoc.PaymentDate = EditDocument.PaymentDate;
+            editDoc.CompanyId = EditDocument.CompanyId;
+            editDoc.DocNumber = EditDocument.DocNumber;
+            editDoc.ExpectedDueDate = EditDocument.ExpectedDueDate;
+            editDoc.PrincipleAmount = EditDocument.PrincipleAmount;
+            editDoc.ODDueDate = EditDocument.ODDueDate;
+            await CloseEditDoc();
+            await _docRepository.Update(editDoc);
+            await _documentService.ProcessDocument(editDoc);
+            _snackbarMessageQueue.Enqueue("Document has been updated successfully");
+            await SearchDocs();
+            _progressbarService.ClearProgressbar();
         }
 
         [RelayCommand]
