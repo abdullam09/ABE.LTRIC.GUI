@@ -22,350 +22,382 @@
             <Behaviors:InvokeCommandAction Command="{Binding LoadCommand}"/>
         </Behaviors:EventTrigger>
     </Behaviors:Interaction.Triggers>
-    <materialDesign:DialogHost IsOpen="{Binding IsEditDocOpen}">
-        <materialDesign:DialogHost.DialogContent>
-            <Grid HorizontalAlignment="Center" VerticalAlignment="Center" Width="400" Height="710">
-                <StackPanel>
-                    <StackPanel HorizontalAlignment="Left" Orientation="Vertical" Margin="15,15,0,15">
-                        <ComboBox Height="45" Width="256" materialDesign:HintAssist.Hint="Company" DisplayMemberPath="Name" SelectedValuePath="Id" ItemsSource="{Binding Companies}" Style="{StaticResource MaterialDesignFilledComboBox}">
-                            <ComboBox.SelectedValue>
-                                <Binding Mode="TwoWay" Path="EditDocument.CompanyId" UpdateSourceTrigger="PropertyChanged">
-                                    <Binding.ValidationRules>
-                                        <domain:NotEmptyValidationRule ValidatesOnTargetUpdated="True" />
-                                    </Binding.ValidationRules>
-                                </Binding>
-                            </ComboBox.SelectedValue>
-                        </ComboBox>
-
-                        <TextBox materialDesign:HintAssist.Hint="Document Number" Style="{StaticResource MaterialDesignFloatingHintTextBox}" VerticalAlignment="Center"  Margin="0,25,0,0">
+    <Grid>
+        <materialDesign:DialogHost IsOpen="{Binding IsEditDocDtlOpen}">
+            <materialDesign:DialogHost.DialogContent>
+                <StackPanel Orientation="Vertical" Width="400" Height="200">
+                    <StackPanel Margin="15,0,15,0">
+                        <TextBox FontSize="15" materialDesign:HintAssist.Hint="Early Sattle To Bank" Style="{StaticResource MaterialDesignFloatingHintTextBox}" VerticalAlignment="Center"  Margin="0,25,0,0">
                             <TextBox.Text>
-                                <Binding Path="EditDocument.DocNumber" UpdateSourceTrigger="PropertyChanged">
+                                <Binding Path="EditDocumentDetail.EarlySattleToBank" UpdateSourceTrigger="PropertyChanged">
                                     <Binding.ValidationRules>
                                         <domain:NotEmptyValidationRule ValidatesOnTargetUpdated="True"/>
                                     </Binding.ValidationRules>
                                 </Binding>
                             </TextBox.Text>
                         </TextBox>
-
-                        <DatePicker materialDesign:HintAssist.Hint="Payment Date" materialDesign:TextFieldAssist.HasClearButton="True" Style="{StaticResource MaterialDesignFloatingHintDatePicker}" Margin="0,25,0,0">
-                            <DatePicker.SelectedDate>
-                                <Binding Path="EditDocument.PaymentDate" UpdateSourceTrigger="PropertyChanged">
-                                    <Binding.ValidationRules>
-                                        <domain:DateValidationRule ValidatesOnTargetUpdated="True" />
-                                    </Binding.ValidationRules>
-                                </Binding>
-                            </DatePicker.SelectedDate>
-                        </DatePicker>
-
-                        <DatePicker materialDesign:HintAssist.Hint="Due Date" materialDesign:TextFieldAssist.HasClearButton="True" Style="{StaticResource MaterialDesignFloatingHintDatePicker}" Margin="0,25,0,0">
-                            <DatePicker.SelectedDate>
-                                <Binding Path="EditDocument.ExpectedDueDate" UpdateSourceTrigger="PropertyChanged">
-                                    <Binding.ValidationRules>
-                                        <domain:DateValidationRule ValidatesOnTargetUpdated="True" />
-                                    </Binding.ValidationRules>
-                                </Binding>
-                            </DatePicker.SelectedDate>
-                        </DatePicker>
-
-                        <DatePicker materialDesign:HintAssist.Hint="OD Due Date" materialDesign:TextFieldAssist.HasClearButton="True" Style="{StaticResource MaterialDesignFloatingHintDatePicker}" Margin="0,25,0,0">
-                            <DatePicker.SelectedDate>
-                                <Binding Path="EditDocument.ODDueDate" UpdateSourceTrigger="PropertyChanged">
-                                    <Binding.ValidationRules>
-                                        <domain:DateValidationRule ValidatesOnTargetUpdated="True" />
-                                    </Binding.ValidationRules>
-                                </Binding>
-                            </DatePicker.SelectedDate>
-                        </DatePicker>
-
-                        <TextBox FontSize="15" materialDesign:HintAssist.Hint="Principal Amount" Style="{StaticResource MaterialDesignFloatingHintTextBox}" VerticalAlignment="Center"  Margin="0,25,0,0">
+                        <TextBox FontSize="15" materialDesign:HintAssist.Hint="Recovered From Company" Style="{StaticResource MaterialDesignFloatingHintTextBox}" VerticalAlignment="Center"  Margin="0,25,0,0">
                             <TextBox.Text>
-                                <Binding Path="EditDocument.PrincipleAmount" UpdateSourceTrigger="PropertyChanged">
+                                <Binding Path="EditDocumentDetail.RecoveredFromCompany" UpdateSourceTrigger="PropertyChanged">
                                     <Binding.ValidationRules>
                                         <domain:NotEmptyValidationRule ValidatesOnTargetUpdated="True"/>
                                     </Binding.ValidationRules>
                                 </Binding>
                             </TextBox.Text>
                         </TextBox>
-                        <CheckBox Content="Is Complete" IsChecked="{Binding EditDocument.IsEnded}" Margin="0,25,0,0"/>
-                        <CheckBox Content="Is OD Complete" IsChecked="{Binding EditDocument.IsODEnded}" Margin="0,25,0,0"/>
-
                     </StackPanel>
-                    <StackPanel >
-                        <TextBox FontSize="15" materialDesign:HintAssist.Hint="Comments" Style="{StaticResource MaterialDesignFloatingHintTextBox}" VerticalAlignment="Center" TextWrapping="Wrap"
-                                 Height="100" AcceptsReturn="True" VerticalScrollBarVisibility="Auto" Margin="15,25,0,0">
-                            <TextBox.Text>
-                                <Binding Path="EditDocument.Comments" UpdateSourceTrigger="PropertyChanged">
-                                </Binding>
-                            </TextBox.Text>
-                        </TextBox>
-                        <Button Margin="10,15,0,0" Content="UPDATE" Width="100" materialDesign:ElevationAssist.Elevation="Dp16" Style="{StaticResource MaterialDesignPaperLightButton}" ToolTip="Add" Command="{Binding UpdateDocCommand}"/>
-                        <Button Margin="10,15,0,0" Content="CLOSE" Width="100" materialDesign:ElevationAssist.Elevation="Dp16" Style="{StaticResource MaterialDesignPaperLightButton}" ToolTip="Add" Command="{Binding CloseEditDocCommand}"/>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <Button Margin="10,15,0,0" Content="UPDATE" Width="100" materialDesign:ElevationAssist.Elevation="Dp16" Style="{StaticResource MaterialDesignPaperLightButton}" ToolTip="Add" Command="{Binding UpdateDocDtlCommand}"/>
+                        <Button Margin="10,15,0,0" Content="CLOSE" Width="100" materialDesign:ElevationAssist.Elevation="Dp16" Style="{StaticResource MaterialDesignPaperLightButton}" ToolTip="Add" Command="{Binding CloseEditDocDtlCommand}"/>
                     </StackPanel>
                 </StackPanel>
-            </Grid>
-        </materialDesign:DialogHost.DialogContent>
-        <Grid HorizontalAlignment="Left" Margin="20,0,20,0">
-            <ScrollViewer VerticalScrollBarVisibility="Auto">
-                <StackPanel>
-                    <TextBlock
+            </materialDesign:DialogHost.DialogContent>
+        </materialDesign:DialogHost>
+        <materialDesign:DialogHost IsOpen="{Binding IsEditDocOpen}">
+            <materialDesign:DialogHost.DialogContent>
+                <Grid HorizontalAlignment="Center" VerticalAlignment="Center" Width="400" Height="710">
+                    <StackPanel>
+                        <StackPanel HorizontalAlignment="Left" Orientation="Vertical" Margin="15,15,0,15">
+                            <ComboBox Height="45" Width="256" materialDesign:HintAssist.Hint="Company" DisplayMemberPath="Name" SelectedValuePath="Id" ItemsSource="{Binding Companies}" Style="{StaticResource MaterialDesignFilledComboBox}">
+                                <ComboBox.SelectedValue>
+                                    <Binding Mode="TwoWay" Path="EditDocument.CompanyId" UpdateSourceTrigger="PropertyChanged">
+                                        <Binding.ValidationRules>
+                                            <domain:NotEmptyValidationRule ValidatesOnTargetUpdated="True" />
+                                        </Binding.ValidationRules>
+                                    </Binding>
+                                </ComboBox.SelectedValue>
+                            </ComboBox>
+
+                            <TextBox materialDesign:HintAssist.Hint="Document Number" Style="{StaticResource MaterialDesignFloatingHintTextBox}" VerticalAlignment="Center"  Margin="0,25,0,0">
+                                <TextBox.Text>
+                                    <Binding Path="EditDocument.DocNumber" UpdateSourceTrigger="PropertyChanged">
+                                        <Binding.ValidationRules>
+                                            <domain:NotEmptyValidationRule ValidatesOnTargetUpdated="True"/>
+                                        </Binding.ValidationRules>
+                                    </Binding>
+                                </TextBox.Text>
+                            </TextBox>
+
+                            <DatePicker materialDesign:HintAssist.Hint="Payment Date" materialDesign:TextFieldAssist.HasClearButton="True" Style="{StaticResource MaterialDesignFloatingHintDatePicker}" Margin="0,25,0,0">
+                                <DatePicker.SelectedDate>
+                                    <Binding Path="EditDocument.PaymentDate" UpdateSourceTrigger="PropertyChanged">
+                                        <Binding.ValidationRules>
+                                            <domain:DateValidationRule ValidatesOnTargetUpdated="True" />
+                                        </Binding.ValidationRules>
+                                    </Binding>
+                                </DatePicker.SelectedDate>
+                            </DatePicker>
+
+                            <DatePicker materialDesign:HintAssist.Hint="Due Date" materialDesign:TextFieldAssist.HasClearButton="True" Style="{StaticResource MaterialDesignFloatingHintDatePicker}" Margin="0,25,0,0">
+                                <DatePicker.SelectedDate>
+                                    <Binding Path="EditDocument.ExpectedDueDate" UpdateSourceTrigger="PropertyChanged">
+                                        <Binding.ValidationRules>
+                                            <domain:DateValidationRule ValidatesOnTargetUpdated="True" />
+                                        </Binding.ValidationRules>
+                                    </Binding>
+                                </DatePicker.SelectedDate>
+                            </DatePicker>
+
+                            <DatePicker materialDesign:HintAssist.Hint="OD Due Date" materialDesign:TextFieldAssist.HasClearButton="True" Style="{StaticResource MaterialDesignFloatingHintDatePicker}" Margin="0,25,0,0">
+                                <DatePicker.SelectedDate>
+                                    <Binding Path="EditDocument.ODDueDate" UpdateSourceTrigger="PropertyChanged">
+                                        <Binding.ValidationRules>
+                                            <domain:DateValidationRule ValidatesOnTargetUpdated="True" />
+                                        </Binding.ValidationRules>
+                                    </Binding>
+                                </DatePicker.SelectedDate>
+                            </DatePicker>
+
+                            <TextBox FontSize="15" materialDesign:HintAssist.Hint="Principal Amount" Style="{StaticResource MaterialDesignFloatingHintTextBox}" VerticalAlignment="Center"  Margin="0,25,0,0">
+                                <TextBox.Text>
+                                    <Binding Path="EditDocument.PrincipleAmount" UpdateSourceTrigger="PropertyChanged">
+                                        <Binding.ValidationRules>
+                                            <domain:NotEmptyValidationRule ValidatesOnTargetUpdated="True"/>
+                                        </Binding.ValidationRules>
+                                    </Binding>
+                                </TextBox.Text>
+                            </TextBox>
+                            <CheckBox Content="Is Complete" IsChecked="{Binding EditDocument.IsEnded}" Margin="0,25,0,0"/>
+                            <CheckBox Content="Is OD Complete" IsChecked="{Binding EditDocument.IsODEnded}" Margin="0,25,0,0"/>
+
+                        </StackPanel>
+                        <StackPanel >
+                            <TextBox FontSize="15" materialDesign:HintAssist.Hint="Comments" Style="{StaticResource MaterialDesignFloatingHintTextBox}" VerticalAlignment="Center" TextWrapping="Wrap"
+                                 Height="100" AcceptsReturn="True" VerticalScrollBarVisibility="Auto" Margin="15,25,0,0">
+                                <TextBox.Text>
+                                    <Binding Path="EditDocument.Comments" UpdateSourceTrigger="PropertyChanged">
+                                    </Binding>
+                                </TextBox.Text>
+                            </TextBox>
+                            <Button Margin="10,15,0,0" Content="UPDATE" Width="100" materialDesign:ElevationAssist.Elevation="Dp16" Style="{StaticResource MaterialDesignPaperLightButton}" ToolTip="Add" Command="{Binding UpdateDocCommand}"/>
+                            <Button Margin="10,15,0,0" Content="CLOSE" Width="100" materialDesign:ElevationAssist.Elevation="Dp16" Style="{StaticResource MaterialDesignPaperLightButton}" ToolTip="Add" Command="{Binding CloseEditDocCommand}"/>
+                        </StackPanel>
+                    </StackPanel>
+                </Grid>
+            </materialDesign:DialogHost.DialogContent>
+            <Grid HorizontalAlignment="Left" Margin="20,0,20,0">
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <StackPanel>
+                        <TextBlock
   Padding="0,16"
   VerticalAlignment="Center"
   Style="{StaticResource MaterialDesignHeadline4TextBlock }"
   Text="Documents" />
-                    <Separator Width="500" HorizontalAlignment="Left"/>
-                    <GroupBox Header="Add Document" Margin="5">
-                        <StackPanel>
-                            <StackPanel HorizontalAlignment="Left" Orientation="Horizontal" Margin="0,15,0,15">
-                                <ComboBox Height="45" Width="256" materialDesign:HintAssist.Hint="Company" DisplayMemberPath="Name" SelectedValuePath="Id" ItemsSource="{Binding Companies}" Style="{StaticResource MaterialDesignFilledComboBox}">
-                                    <ComboBox.SelectedValue>
-                                        <Binding Mode="TwoWay" Path="Document.CompanyId" UpdateSourceTrigger="PropertyChanged">
-                                            <Binding.ValidationRules>
-                                                <domain:NotEmptyValidationRule ValidatesOnTargetUpdated="True" />
-                                            </Binding.ValidationRules>
-                                        </Binding>
-                                    </ComboBox.SelectedValue>
-                                </ComboBox>
-
-                                <TextBox materialDesign:HintAssist.Hint="Document Number" Style="{StaticResource MaterialDesignFloatingHintTextBox}" VerticalAlignment="Center"  Margin="5,0,0,0">
-                                    <TextBox.Text>
-                                        <Binding Path="Document.DocNumber" UpdateSourceTrigger="PropertyChanged">
-                                            <Binding.ValidationRules>
-                                                <domain:NotEmptyValidationRule ValidatesOnTargetUpdated="True"/>
-                                            </Binding.ValidationRules>
-                                        </Binding>
-                                    </TextBox.Text>
-                                </TextBox>
-
-                                <DatePicker Width="100" materialDesign:HintAssist.Hint="Payment Date" materialDesign:TextFieldAssist.HasClearButton="True" Style="{StaticResource MaterialDesignFloatingHintDatePicker}" Margin="5,0,0,0">
-                                    <DatePicker.SelectedDate>
-                                        <Binding Path="Document.PaymentDate" UpdateSourceTrigger="PropertyChanged">
-                                            <Binding.ValidationRules>
-                                                <domain:DateValidationRule ValidatesOnTargetUpdated="True" />
-                                            </Binding.ValidationRules>
-                                        </Binding>
-                                    </DatePicker.SelectedDate>
-                                </DatePicker>
-
-                                <DatePicker Width="100" materialDesign:HintAssist.Hint="Due Date" materialDesign:TextFieldAssist.HasClearButton="True" Style="{StaticResource MaterialDesignFloatingHintDatePicker}" Margin="5,0,0,0">
-                                    <DatePicker.SelectedDate>
-                                        <Binding Path="Document.ExpectedDueDate" UpdateSourceTrigger="PropertyChanged">
-                                            <Binding.ValidationRules>
-                                                <domain:DateValidationRule ValidatesOnTargetUpdated="True" />
-                                            </Binding.ValidationRules>
-                                        </Binding>
-                                    </DatePicker.SelectedDate>
-                                </DatePicker>
-
-                                <DatePicker Width="100" materialDesign:HintAssist.Hint="OD Due Date" materialDesign:TextFieldAssist.HasClearButton="True" Style="{StaticResource MaterialDesignFloatingHintDatePicker}" Margin="5,0,0,0">
-                                    <DatePicker.SelectedDate>
-                                        <Binding Path="Document.ODDueDate" UpdateSourceTrigger="PropertyChanged">
-                                            <Binding.ValidationRules>
-                                                <domain:DateValidationRule ValidatesOnTargetUpdated="True" />
-                                            </Binding.ValidationRules>
-                                        </Binding>
-                                    </DatePicker.SelectedDate>
-                                </DatePicker>
-
-                                <TextBox FontSize="15" materialDesign:HintAssist.Hint="Principal Amount" Style="{StaticResource MaterialDesignFloatingHintTextBox}" VerticalAlignment="Center"  Margin="5,0,0,0">
-                                    <TextBox.Text>
-                                        <Binding Path="Document.PrincipleAmount" UpdateSourceTrigger="PropertyChanged">
-                                            <Binding.ValidationRules>
-                                                <domain:NotEmptyValidationRule ValidatesOnTargetUpdated="True"/>
-                                            </Binding.ValidationRules>
-                                        </Binding>
-                                    </TextBox.Text>
-                                </TextBox>
-                                <CheckBox Content="Is Complete" IsChecked="{Binding Document.IsEnded}" />
-                                <CheckBox Content="Is OD Complete" IsChecked="{Binding Document.IsODEnded}"/>
-
-                            </StackPanel>
+                        <Separator Width="500" HorizontalAlignment="Left"/>
+                        <GroupBox Header="Add Document" Margin="5">
                             <StackPanel>
-                                <TextBox FontSize="15" materialDesign:HintAssist.Hint="Comments" Style="{StaticResource MaterialDesignFloatingHintTextBox}" VerticalAlignment="Center" TextWrapping="Wrap"
+                                <StackPanel HorizontalAlignment="Left" Orientation="Horizontal" Margin="0,15,0,15">
+                                    <ComboBox Height="45" Width="256" materialDesign:HintAssist.Hint="Company" DisplayMemberPath="Name" SelectedValuePath="Id" ItemsSource="{Binding Companies}" Style="{StaticResource MaterialDesignFilledComboBox}">
+                                        <ComboBox.SelectedValue>
+                                            <Binding Mode="TwoWay" Path="Document.CompanyId" UpdateSourceTrigger="PropertyChanged">
+                                                <Binding.ValidationRules>
+                                                    <domain:NotEmptyValidationRule ValidatesOnTargetUpdated="True" />
+                                                </Binding.ValidationRules>
+                                            </Binding>
+                                        </ComboBox.SelectedValue>
+                                    </ComboBox>
+
+                                    <TextBox materialDesign:HintAssist.Hint="Document Number" Style="{StaticResource MaterialDesignFloatingHintTextBox}" VerticalAlignment="Center"  Margin="5,0,0,0">
+                                        <TextBox.Text>
+                                            <Binding Path="Document.DocNumber" UpdateSourceTrigger="PropertyChanged">
+                                                <Binding.ValidationRules>
+                                                    <domain:NotEmptyValidationRule ValidatesOnTargetUpdated="True"/>
+                                                </Binding.ValidationRules>
+                                            </Binding>
+                                        </TextBox.Text>
+                                    </TextBox>
+
+                                    <DatePicker Width="100" materialDesign:HintAssist.Hint="Payment Date" materialDesign:TextFieldAssist.HasClearButton="True" Style="{StaticResource MaterialDesignFloatingHintDatePicker}" Margin="5,0,0,0">
+                                        <DatePicker.SelectedDate>
+                                            <Binding Path="Document.PaymentDate" UpdateSourceTrigger="PropertyChanged">
+                                                <Binding.ValidationRules>
+                                                    <domain:DateValidationRule ValidatesOnTargetUpdated="True" />
+                                                </Binding.ValidationRules>
+                                            </Binding>
+                                        </DatePicker.SelectedDate>
+                                    </DatePicker>
+
+                                    <DatePicker Width="100" materialDesign:HintAssist.Hint="Due Date" materialDesign:TextFieldAssist.HasClearButton="True" Style="{StaticResource MaterialDesignFloatingHintDatePicker}" Margin="5,0,0,0">
+                                        <DatePicker.SelectedDate>
+                                            <Binding Path="Document.ExpectedDueDate" UpdateSourceTrigger="PropertyChanged">
+                                                <Binding.ValidationRules>
+                                                    <domain:DateValidationRule ValidatesOnTargetUpdated="True" />
+                                                </Binding.ValidationRules>
+                                            </Binding>
+                                        </DatePicker.SelectedDate>
+                                    </DatePicker>
+
+                                    <DatePicker Width="100" materialDesign:HintAssist.Hint="OD Due Date" materialDesign:TextFieldAssist.HasClearButton="True" Style="{StaticResource MaterialDesignFloatingHintDatePicker}" Margin="5,0,0,0">
+                                        <DatePicker.SelectedDate>
+                                            <Binding Path="Document.ODDueDate" UpdateSourceTrigger="PropertyChanged">
+                                                <Binding.ValidationRules>
+                                                    <domain:DateValidationRule ValidatesOnTargetUpdated="True" />
+                                                </Binding.ValidationRules>
+                                            </Binding>
+                                        </DatePicker.SelectedDate>
+                                    </DatePicker>
+
+                                    <TextBox FontSize="15" materialDesign:HintAssist.Hint="Principal Amount" Style="{StaticResource MaterialDesignFloatingHintTextBox}" VerticalAlignment="Center"  Margin="5,0,0,0">
+                                        <TextBox.Text>
+                                            <Binding Path="Document.PrincipleAmount" UpdateSourceTrigger="PropertyChanged">
+                                                <Binding.ValidationRules>
+                                                    <domain:NotEmptyValidationRule ValidatesOnTargetUpdated="True"/>
+                                                </Binding.ValidationRules>
+                                            </Binding>
+                                        </TextBox.Text>
+                                    </TextBox>
+                                    <CheckBox Content="Is Complete" IsChecked="{Binding Document.IsEnded}" />
+                                    <CheckBox Content="Is OD Complete" IsChecked="{Binding Document.IsODEnded}"/>
+
+                                </StackPanel>
+                                <StackPanel>
+                                    <TextBox FontSize="15" materialDesign:HintAssist.Hint="Comments" Style="{StaticResource MaterialDesignFloatingHintTextBox}" VerticalAlignment="Center" TextWrapping="Wrap"
+                                 Height="100" AcceptsReturn="True" VerticalScrollBarVisibility="Auto" Margin="5,0,0,0">
+                                        <TextBox.Text>
+                                            <Binding Path="Document.Comments" UpdateSourceTrigger="PropertyChanged">
+                                            </Binding>
+                                        </TextBox.Text>
+                                    </TextBox>
+                                    <Button Margin="10,15,0,0" Content="ADD" Width="100" materialDesign:ElevationAssist.Elevation="Dp16" Style="{StaticResource MaterialDesignPaperLightButton}" ToolTip="Add" Command="{Binding AddNewDocCommand}"/>
+                                </StackPanel>
+                            </StackPanel>
+                        </GroupBox>
+                        <GroupBox Header="Documents" Margin="5">
+                            <StackPanel Orientation="Vertical">
+                                <TextBox FontSize="15" materialDesign:HintAssist.Hint="Selected Document Comments"  Style="{StaticResource MaterialDesignFloatingHintTextBox}" VerticalAlignment="Center" TextWrapping="Wrap"
                                  Height="100" AcceptsReturn="True" VerticalScrollBarVisibility="Auto" Margin="5,0,0,0">
                                     <TextBox.Text>
-                                        <Binding Path="Document.Comments" UpdateSourceTrigger="PropertyChanged">
+                                        <Binding Path="SelectedDoc.Comments" UpdateSourceTrigger="PropertyChanged">
                                         </Binding>
                                     </TextBox.Text>
                                 </TextBox>
-                                <Button Margin="10,15,0,0" Content="ADD" Width="100" materialDesign:ElevationAssist.Elevation="Dp16" Style="{StaticResource MaterialDesignPaperLightButton}" ToolTip="Add" Command="{Binding AddNewDocCommand}"/>
-                            </StackPanel>
-                        </StackPanel>
-                    </GroupBox>
-                    <GroupBox Header="Documents" Margin="5">
-                        <StackPanel Orientation="Vertical">
-                            <TextBox FontSize="15" materialDesign:HintAssist.Hint="Selected Document Comments"  Style="{StaticResource MaterialDesignFloatingHintTextBox}" VerticalAlignment="Center" TextWrapping="Wrap"
-                                 Height="100" AcceptsReturn="True" VerticalScrollBarVisibility="Auto" Margin="5,0,0,0">
-                                <TextBox.Text>
-                                    <Binding Path="SelectedDoc.Comments" UpdateSourceTrigger="PropertyChanged">
-                                    </Binding>
-                                </TextBox.Text>
-                            </TextBox>
-                            <StackPanel Orientation="Horizontal">
-                                <Expander ExpandDirection="Left">
-                                    <Expander.Header>
-                                        <TextBlock RenderTransformOrigin=".5,.5" Text="Search">
-                                            <TextBlock.LayoutTransform>
-                                                <RotateTransform Angle="90" />
-                                            </TextBlock.LayoutTransform>
-                                        </TextBlock>
-                                    </Expander.Header>
-                                    <StackPanel Margin="8,24,16,24" Orientation="Vertical" TextBlock.Foreground="{DynamicResource MaterialDesignBody}">
-                                        <ComboBox Height="45"  materialDesign:HintAssist.Hint="Company" DisplayMemberPath="Name" SelectedValuePath="Id" ItemsSource="{Binding Companies}" Style="{StaticResource MaterialDesignFilledComboBox}" Margin="5">
-                                            <ComboBox.SelectedValue>
-                                                <Binding Mode="TwoWay" Path="SearchCompanyId" UpdateSourceTrigger="PropertyChanged">
-                                                </Binding>
-                                            </ComboBox.SelectedValue>
-                                        </ComboBox>
-                                        <TextBox materialDesign:HintAssist.Hint="Document Number" Style="{StaticResource MaterialDesignFloatingHintTextBox}" VerticalAlignment="Center"  Margin="5">
-                                            <TextBox.Text>
-                                                <Binding Path="SearchDocNum" UpdateSourceTrigger="PropertyChanged">
-                                                </Binding>
-                                            </TextBox.Text>
-                                        </TextBox>
-                                        <CheckBox Content="Enable Payment date search" IsChecked="{Binding SearchEnablePaymentDate}" />
-                                        <StackPanel Orientation="Horizontal">
-                                            <DatePicker Width="130" materialDesign:HintAssist.Hint="From Payment" materialDesign:TextFieldAssist.HasClearButton="True" Style="{StaticResource MaterialDesignFloatingHintDatePicker}" Margin="5">
-                                                <DatePicker.SelectedDate>
-                                                    <Binding Path="SearchFromPaymentDate" UpdateSourceTrigger="PropertyChanged">
+                                <StackPanel Orientation="Horizontal">
+                                    <Expander ExpandDirection="Left">
+                                        <Expander.Header>
+                                            <TextBlock RenderTransformOrigin=".5,.5" Text="Search">
+                                                <TextBlock.LayoutTransform>
+                                                    <RotateTransform Angle="90" />
+                                                </TextBlock.LayoutTransform>
+                                            </TextBlock>
+                                        </Expander.Header>
+                                        <StackPanel Margin="8,24,16,24" Orientation="Vertical" TextBlock.Foreground="{DynamicResource MaterialDesignBody}">
+                                            <ComboBox Height="45"  materialDesign:HintAssist.Hint="Company" DisplayMemberPath="Name" SelectedValuePath="Id" ItemsSource="{Binding Companies}" Style="{StaticResource MaterialDesignFilledComboBox}" Margin="5">
+                                                <ComboBox.SelectedValue>
+                                                    <Binding Mode="TwoWay" Path="SearchCompanyId" UpdateSourceTrigger="PropertyChanged">
                                                     </Binding>
-                                                </DatePicker.SelectedDate>
-                                            </DatePicker>
-                                            <DatePicker Width="130" materialDesign:HintAssist.Hint="To Payment" materialDesign:TextFieldAssist.HasClearButton="True" Style="{StaticResource MaterialDesignFloatingHintDatePicker}" Margin="5">
-                                                <DatePicker.SelectedDate>
-                                                    <Binding Path="SearchToPaymentDate" UpdateSourceTrigger="PropertyChanged">
+                                                </ComboBox.SelectedValue>
+                                            </ComboBox>
+                                            <TextBox materialDesign:HintAssist.Hint="Document Number" Style="{StaticResource MaterialDesignFloatingHintTextBox}" VerticalAlignment="Center"  Margin="5">
+                                                <TextBox.Text>
+                                                    <Binding Path="SearchDocNum" UpdateSourceTrigger="PropertyChanged">
                                                     </Binding>
-                                                </DatePicker.SelectedDate>
-                                            </DatePicker>
+                                                </TextBox.Text>
+                                            </TextBox>
+                                            <CheckBox Content="Enable Payment date search" IsChecked="{Binding SearchEnablePaymentDate}" />
+                                            <StackPanel Orientation="Horizontal">
+                                                <DatePicker Width="130" materialDesign:HintAssist.Hint="From Payment" materialDesign:TextFieldAssist.HasClearButton="True" Style="{StaticResource MaterialDesignFloatingHintDatePicker}" Margin="5">
+                                                    <DatePicker.SelectedDate>
+                                                        <Binding Path="SearchFromPaymentDate" UpdateSourceTrigger="PropertyChanged">
+                                                        </Binding>
+                                                    </DatePicker.SelectedDate>
+                                                </DatePicker>
+                                                <DatePicker Width="130" materialDesign:HintAssist.Hint="To Payment" materialDesign:TextFieldAssist.HasClearButton="True" Style="{StaticResource MaterialDesignFloatingHintDatePicker}" Margin="5">
+                                                    <DatePicker.SelectedDate>
+                                                        <Binding Path="SearchToPaymentDate" UpdateSourceTrigger="PropertyChanged">
+                                                        </Binding>
+                                                    </DatePicker.SelectedDate>
+                                                </DatePicker>
+                                            </StackPanel>
+                                            <TextBox FontSize="15" materialDesign:HintAssist.Hint="Amount" Style="{StaticResource MaterialDesignFloatingHintTextBox}" VerticalAlignment="Center"  Margin="5">
+                                                <TextBox.Text>
+                                                    <Binding Path="SearchAmount" UpdateSourceTrigger="PropertyChanged" Mode="TwoWay">
+                                                    </Binding>
+                                                </TextBox.Text>
+                                            </TextBox>
+                                            <StackPanel Orientation="Horizontal">
+                                                <ComboBox Height="45" Width="130" ItemsSource="{Binding IsCompletes}" SelectedItem="{Binding SearchIsComplete}" materialDesign:HintAssist.Hint="Is Complete" Style="{StaticResource MaterialDesignFilledComboBox}" Margin="5"/>
+                                                <ComboBox Height="45" Width="130" ItemsSource="{Binding IsCompletes}" SelectedItem="{Binding SearchIsOdComplete}" materialDesign:HintAssist.Hint="Is OD Complete" Style="{StaticResource MaterialDesignFilledComboBox}" Margin="5"/>
+                                            </StackPanel>
+                                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                                <Button Content="Search" Command="{Binding SearchDocsCommand}" Margin="5"></Button>
+                                                <Button Content="Clear" Command="{Binding ClearSearchDocsCommand}" Margin="5"></Button>
+                                            </StackPanel>
                                         </StackPanel>
-                                        <TextBox FontSize="15" materialDesign:HintAssist.Hint="Amount" Style="{StaticResource MaterialDesignFloatingHintTextBox}" VerticalAlignment="Center"  Margin="5">
-                                            <TextBox.Text>
-                                                <Binding Path="SearchAmount" UpdateSourceTrigger="PropertyChanged" Mode="TwoWay">
-                                                </Binding>
-                                            </TextBox.Text>
-                                        </TextBox>
-                                        <StackPanel Orientation="Horizontal">
-                                            <ComboBox Height="45" Width="130" ItemsSource="{Binding IsCompletes}" SelectedItem="{Binding SearchIsComplete}" materialDesign:HintAssist.Hint="Is Complete" Style="{StaticResource MaterialDesignFilledComboBox}" Margin="5"/>
-                                            <ComboBox Height="45" Width="130" ItemsSource="{Binding IsCompletes}" SelectedItem="{Binding SearchIsOdComplete}" materialDesign:HintAssist.Hint="Is OD Complete" Style="{StaticResource MaterialDesignFilledComboBox}" Margin="5"/>
-                                        </StackPanel>
-                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                                            <Button Content="Search" Command="{Binding SearchDocsCommand}" Margin="5"></Button>
-                                            <Button Content="Clear" Command="{Binding ClearSearchDocsCommand}" Margin="5"></Button>
-                                        </StackPanel>
-                                    </StackPanel>
-                                </Expander>
-                                <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
-                                    <DataGrid Name="dgDocs" AutoGenerateColumns="False" CanUserAddRows="False" ItemsSource="{Binding Docs}" IsReadOnly="True" Width="970" Height="300" SelectedItem="{Binding SelectedDoc}"
+                                    </Expander>
+                                    <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+                                        <DataGrid Name="dgDocs" AutoGenerateColumns="False" CanUserAddRows="False" ItemsSource="{Binding Docs}" IsReadOnly="True" Width="970" Height="300" SelectedItem="{Binding SelectedDoc}"
                                           ScrollViewer.CanContentScroll="True" ScrollViewer.HorizontalScrollBarVisibility="Auto">
-                                        <DataGrid.Columns>
-                                            <DataGridTemplateColumn>
-                                                <DataGridTemplateColumn.Header>
-                                                    <TextBlock Text="Actions"/>
-                                                </DataGridTemplateColumn.Header>
-                                                <DataGridTemplateColumn.CellTemplate>
-                                                    <DataTemplate>
-                                                        <StackPanel Orientation="Horizontal" >
-                                                            <Button Style="{StaticResource MaterialDesignIconButton}" ToolTip="Delete" Height="30" Width="30" Command="{Binding ElementName=dgDocs,Path=DataContext.DeleteDocCommand}" CommandParameter="{Binding}">
-                                                                <materialDesign:PackIcon Kind="Delete" />
-                                                            </Button>
-                                                            <Button Style="{StaticResource MaterialDesignIconButton}" ToolTip="View Details" Height="30" Width="30" Command="{Binding ElementName=dgDocs,Path=DataContext.DocDetailsCommand}" CommandParameter="{Binding}">
-                                                                <materialDesign:PackIcon Kind="ViewList" />
-                                                            </Button>
+                                            <DataGrid.Columns>
+                                                <DataGridTemplateColumn>
+                                                    <DataGridTemplateColumn.Header>
+                                                        <TextBlock Text="Actions"/>
+                                                    </DataGridTemplateColumn.Header>
+                                                    <DataGridTemplateColumn.CellTemplate>
+                                                        <DataTemplate>
+                                                            <StackPanel Orientation="Horizontal" >
+                                                                <Button Style="{StaticResource MaterialDesignIconButton}" ToolTip="Delete" Height="30" Width="30" Command="{Binding ElementName=dgDocs,Path=DataContext.DeleteDocCommand}" CommandParameter="{Binding}">
+                                                                    <materialDesign:PackIcon Kind="Delete" />
+                                                                </Button>
+                                                                <Button Style="{StaticResource MaterialDesignIconButton}" ToolTip="View Details" Height="30" Width="30" Command="{Binding ElementName=dgDocs,Path=DataContext.DocDetailsCommand}" CommandParameter="{Binding}">
+                                                                    <materialDesign:PackIcon Kind="ViewList" />
+                                                                </Button>
 
-                                                            <Button Style="{StaticResource MaterialDesignIconButton}" ToolTip="Edit" Height="30" Width="30" Command="{Binding ElementName=dgDocs,Path=DataContext.EditDocCommand}" CommandParameter="{Binding}">
-                                                                <materialDesign:PackIcon Kind="Edit" />
-                                                            </Button>
-                                                        </StackPanel>
-                                                    </DataTemplate>
-                                                </DataGridTemplateColumn.CellTemplate>
-                                            </DataGridTemplateColumn>
-                                            <DataGridTextColumn Binding="{Binding Company.Name}" ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}" Header="Company" />
-                                            <DataGridTextColumn Binding="{Binding DocNumber}" ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}" Header="Documnet Number" />
-                                            <materialDesign:DataGridTextColumn ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}" Header="Payment Date">
-                                                <materialDesign:DataGridTextColumn.Binding>
-                                                    <Binding Path="PaymentDate" StringFormat="d">
-                                                    </Binding>
-                                                </materialDesign:DataGridTextColumn.Binding>
-                                            </materialDesign:DataGridTextColumn>
-                                            <DataGridTextColumn ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}" Header="Expected Due Date">
-                                                <DataGridTextColumn.Binding>
-                                                    <Binding Path="ExpectedDueDate" StringFormat="d">
-                                                    </Binding>
-                                                </DataGridTextColumn.Binding>
-                                            </DataGridTextColumn>
-                                            <DataGridTextColumn ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}" Header="OD Due Date">
-                                                <DataGridTextColumn.Binding>
-                                                    <Binding Path="ODDueDate" StringFormat="d">
-                                                    </Binding>
-                                                </DataGridTextColumn.Binding>
-                                            </DataGridTextColumn>
-                                            <DataGridTextColumn Binding="{Binding PrincipleAmount,StringFormat='#,#.##'}" ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}" Header="Principle Amount" />
-                                            <DataGridTextColumn ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}" Header="Insert Date">
-                                                <DataGridTextColumn.Binding>
-                                                    <Binding Path="InsertDate" StringFormat="d">
-                                                    </Binding>
-                                                </DataGridTextColumn.Binding>
-                                            </DataGridTextColumn>
-                                            <DataGridCheckBoxColumn Binding="{Binding IsEnded}" ElementStyle="{StaticResource MaterialDesignDataGridCheckBoxColumnStyle}" Header="Is Complete"/>
-                                            <DataGridCheckBoxColumn Binding="{Binding IsODEnded}" ElementStyle="{StaticResource MaterialDesignDataGridCheckBoxColumnStyle}" Header="Is OD Complete"/>
+                                                                <Button Style="{StaticResource MaterialDesignIconButton}" ToolTip="Edit" Height="30" Width="30" Command="{Binding ElementName=dgDocs,Path=DataContext.EditDocCommand}" CommandParameter="{Binding}">
+                                                                    <materialDesign:PackIcon Kind="Edit" />
+                                                                </Button>
+                                                            </StackPanel>
+                                                        </DataTemplate>
+                                                    </DataGridTemplateColumn.CellTemplate>
+                                                </DataGridTemplateColumn>
+                                                <DataGridTextColumn Binding="{Binding Company.Name}" ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}" Header="Company" />
+                                                <DataGridTextColumn Binding="{Binding DocNumber}" ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}" Header="Documnet Number" />
+                                                <materialDesign:DataGridTextColumn ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}" Header="Payment Date">
+                                                    <materialDesign:DataGridTextColumn.Binding>
+                                                        <Binding Path="PaymentDate" StringFormat="d">
+                                                        </Binding>
+                                                    </materialDesign:DataGridTextColumn.Binding>
+                                                </materialDesign:DataGridTextColumn>
+                                                <DataGridTextColumn ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}" Header="Expected Due Date">
+                                                    <DataGridTextColumn.Binding>
+                                                        <Binding Path="ExpectedDueDate" StringFormat="d">
+                                                        </Binding>
+                                                    </DataGridTextColumn.Binding>
+                                                </DataGridTextColumn>
+                                                <DataGridTextColumn ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}" Header="OD Due Date">
+                                                    <DataGridTextColumn.Binding>
+                                                        <Binding Path="ODDueDate" StringFormat="d">
+                                                        </Binding>
+                                                    </DataGridTextColumn.Binding>
+                                                </DataGridTextColumn>
+                                                <DataGridTextColumn Binding="{Binding PrincipleAmount,StringFormat='#,#.##'}" ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}" Header="Principle Amount" />
+                                                <DataGridTextColumn ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}" Header="Insert Date">
+                                                    <DataGridTextColumn.Binding>
+                                                        <Binding Path="InsertDate" StringFormat="d">
+                                                        </Binding>
+                                                    </DataGridTextColumn.Binding>
+                                                </DataGridTextColumn>
+                                                <DataGridCheckBoxColumn Binding="{Binding IsEnded}" ElementStyle="{StaticResource MaterialDesignDataGridCheckBoxColumnStyle}" Header="Is Complete"/>
+                                                <DataGridCheckBoxColumn Binding="{Binding IsODEnded}" ElementStyle="{StaticResource MaterialDesignDataGridCheckBoxColumnStyle}" Header="Is OD Complete"/>
 
-                                        </DataGrid.Columns>
-                                    </DataGrid>
-                                </ScrollViewer>
+                                            </DataGrid.Columns>
+                                        </DataGrid>
+                                    </ScrollViewer>
+                                </StackPanel>
                             </StackPanel>
-                        </StackPanel>
-                    </GroupBox>
-                    <GroupBox Header="Document Details" Margin="5">
-                        <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
-                            <DataGrid Name="dgDocDtls" AutoGenerateColumns="False" CanUserAddRows="False" ItemsSource="{Binding DocDtls}" IsReadOnly="True" Width="970" Height="300" SelectedItem="{Binding SelectedDocDtl}"
+                        </GroupBox>
+                        <GroupBox Header="Document Details" Margin="5">
+                            <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+                                <DataGrid Name="dgDocDtls" AutoGenerateColumns="False" CanUserAddRows="False" ItemsSource="{Binding DocDtls}" IsReadOnly="True" Width="970" Height="300" SelectedItem="{Binding SelectedDocDtl}"
                                           ScrollViewer.CanContentScroll="True" ScrollViewer.HorizontalScrollBarVisibility="Auto">
-                                <DataGrid.Columns>
-                                    <DataGridTemplateColumn>
-                                        <DataGridTemplateColumn.Header>
-                                            <TextBlock Text="Actions"/>
-                                        </DataGridTemplateColumn.Header>
-                                        <DataGridTemplateColumn.CellTemplate>
-                                            <DataTemplate>
-                                                <StackPanel Orientation="Horizontal" >
-                                                    <Button Style="{StaticResource MaterialDesignIconButton}" ToolTip="Edit" Height="30" Width="30">
-                                                        <materialDesign:PackIcon Kind="Edit" />
-                                                    </Button>
-                                                </StackPanel>
-                                            </DataTemplate>
-                                        </DataGridTemplateColumn.CellTemplate>
-                                    </DataGridTemplateColumn>
-                                    <DataGridTextColumn ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}" Header="Record Date">
-                                        <DataGridTextColumn.Binding>
-                                            <Binding Path="RecordDate" StringFormat="d">
-                                            </Binding>
-                                        </DataGridTextColumn.Binding>
-                                    </DataGridTextColumn>
-                                    <DataGridTextColumn ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}" Header="Refund Date">
-                                        <DataGridTextColumn.Binding>
-                                            <Binding Path="RefundDate" StringFormat="d">
-                                            </Binding>
-                                        </DataGridTextColumn.Binding>
-                                    </DataGridTextColumn>
-                                    <DataGridTextColumn Binding="{Binding EarlySattleToBank,StringFormat='#,#.##'}" ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}" Header="Early Sattle To Bank" />
-                                    <DataGridTextColumn Binding="{Binding RecoveredFromCompany,StringFormat='#,#.##'}" ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}" Header="Recovered From Company" />
-                                    <DataGridTextColumn Binding="{Binding LTR_Intrest,StringFormat='#,#.##'}" ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}" Header="LRT Intrest" />
-                                    <DataGridTextColumn Binding="{Binding OD_Interest,StringFormat='#,#.##'}" ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}" Header="OD Interest" />
-                                    <DataGridTextColumn Binding="{Binding LTR_Total,StringFormat='#,#.##'}" ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}" Header="LRT Total" />
-                                    <DataGridTextColumn Binding="{Binding OD_Total,StringFormat='#,#.##'}" ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}" Header="OD Total" />
-                                    <DataGridTextColumn Binding="{Binding Total_Intrest,StringFormat='#,#.##'}" ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}" Header="Total Intrest" />
-                                    <DataGridTextColumn Binding="{Binding TotalChargeToBank,StringFormat='#,#.##'}" ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}" Header="Total Charge To Bank" />
-                                    <DataGridTextColumn Binding="{Binding TotalChargeToCompany,StringFormat='#,#.##'}" ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}" Header="Total Charge To Company" />
-                                    <DataGridTextColumn ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}" Header="Insert Date">
-                                        <DataGridTextColumn.Binding>
-                                            <Binding Path="InsertDate" StringFormat="d">
-                                            </Binding>
-                                        </DataGridTextColumn.Binding>
-                                    </DataGridTextColumn>
-                                </DataGrid.Columns>
-                            </DataGrid>
-                        </ScrollViewer>
-                    </GroupBox>
-                </StackPanel>
-            </ScrollViewer>
-        </Grid>
-    </materialDesign:DialogHost>
+                                    <DataGrid.Columns>
+                                        <DataGridTemplateColumn>
+                                            <DataGridTemplateColumn.Header>
+                                                <TextBlock Text="Actions"/>
+                                            </DataGridTemplateColumn.Header>
+                                            <DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <StackPanel Orientation="Horizontal" >
+                                                        <Button Style="{StaticResource MaterialDesignIconButton}" ToolTip="Edit" Height="30" Width="30" Command="{Binding ElementName=dgDocDtls,Path=DataContext.EditDocDtlCommand}" CommandParameter="{Binding}">
+                                                            <materialDesign:PackIcon Kind="Edit" />
+                                                        </Button>
+                                                    </StackPanel>
+                                                </DataTemplate>
+                                            </DataGridTemplateColumn.CellTemplate>
+                                        </DataGridTemplateColumn>
+                                        <DataGridTextColumn ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}" Header="Record Date">
+                                            <DataGridTextColumn.Binding>
+                                                <Binding Path="RecordDate" StringFormat="d">
+                                                </Binding>
+                                            </DataGridTextColumn.Binding>
+                                        </DataGridTextColumn>
+                                        <DataGridTextColumn ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}" Header="Refund Date">
+                                            <DataGridTextColumn.Binding>
+                                                <Binding Path="RefundDate" StringFormat="d">
+                                                </Binding>
+                                            </DataGridTextColumn.Binding>
+                                        </DataGridTextColumn>
+                                        <DataGridTextColumn Binding="{Binding EarlySattleToBank,StringFormat='#,#.##'}" ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}" Header="Early Sattle To Bank" />
+                                        <DataGridTextColumn Binding="{Binding RecoveredFromCompany,StringFormat='#,#.##'}" ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}" Header="Recovered From Company" />
+                                        <DataGridTextColumn Binding="{Binding LTR_Intrest,StringFormat='#,#.##'}" ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}" Header="LRT Intrest" />
+                                        <DataGridTextColumn Binding="{Binding OD_Interest,StringFormat='#,#.##'}" ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}" Header="OD Interest" />
+                                        <DataGridTextColumn Binding="{Binding LTR_Total,StringFormat='#,#.##'}" ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}" Header="LRT Total" />
+                                        <DataGridTextColumn Binding="{Binding OD_Total,StringFormat='#,#.##'}" ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}" Header="OD Total" />
+                                        <DataGridTextColumn Binding="{Binding Total_Intrest,StringFormat='#,#.##'}" ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}" Header="Total Intrest" />
+                                        <DataGridTextColumn Binding="{Binding TotalChargeToBank,StringFormat='#,#.##'}" ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}" Header="Total Charge To Bank" />
+                                        <DataGridTextColumn Binding="{Binding TotalChargeToCompany,StringFormat='#,#.##'}" ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}" Header="Total Charge To Company" />
+                                        <DataGridTextColumn ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}" Header="Insert Date">
+                                            <DataGridTextColumn.Binding>
+                                                <Binding Path="InsertDate" StringFormat="d">
+                                                </Binding>
+                                            </DataGridTextColumn.Binding>
+                                        </DataGridTextColumn>
+                                    </DataGrid.Columns>
+                                </DataGrid>
+                            </ScrollViewer>
+                        </GroupBox>
+                    </StackPanel>
+                </ScrollViewer>
+            </Grid>
+        </materialDesign:DialogHost>
+    </Grid>
 </UserControl>

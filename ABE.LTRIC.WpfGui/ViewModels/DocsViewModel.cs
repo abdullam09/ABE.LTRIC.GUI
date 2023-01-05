@@ -34,7 +34,11 @@ namespace ABE.LTRIC.WpfGui.ViewModels
         [ObservableProperty]
         private Document editDocument;
 
+        [ObservableProperty]
+        private DocumentDetail editDocumentDetail;
+
         private Doc editDoc;
+        private DocDtl editDocDtl;
 
         [ObservableProperty]
         private ObservableCollection<Company> companies;
@@ -73,6 +77,9 @@ namespace ABE.LTRIC.WpfGui.ViewModels
 
         [ObservableProperty]
         private bool isEditDocOpen;
+
+        [ObservableProperty]
+        private bool isEditDocDtlOpen;
 
 
         public DocsViewModel(ICompanyRepository companyRepository, ISnackbarMessageQueue snackbarMessageQueue, IProgressbarService progressbarService, IDocRepository docRepository, IDocDtlRepository docDtlRepository, IDocumentService documentService)
@@ -158,6 +165,41 @@ namespace ABE.LTRIC.WpfGui.ViewModels
             var docDetailsSp = new DocDtlsByDocId(doc.Id);
             editDoc = doc;
             editDoc.DocDtls = (List<DocDtl>)await _docDtlRepository.Get(docDetailsSp);
+            await Task.CompletedTask;
+        }
+
+        [RelayCommand]
+        public async Task EditDocDtl(DocDtl docDtl)
+        {
+            IsEditDocDtlOpen = true;
+            EditDocumentDetail = new DocumentDetail();
+            EditDocumentDetail.Id = docDtl.Id;
+            EditDocumentDetail.EarlySattleToBank = docDtl.EarlySattleToBank;
+            EditDocumentDetail.RecoveredFromCompany = docDtl.RecoveredFromCompany;
+            editDocDtl = docDtl;
+            await Task.CompletedTask;
+        }
+
+        [RelayCommand]
+        public async Task UpdateDocDtl()
+        {
+            _progressbarService.SetProgressbar("please wait");
+            editDocDtl.EarlySattleToBank = EditDocumentDetail.EarlySattleToBank;
+            editDocDtl.RecoveredFromCompany = EditDocumentDetail.RecoveredFromCompany;
+            await CloseEditDocDtl();
+            await _docDtlRepository.Update(editDocDtl);
+            var docByIdSp = new DocByIdSp(editDocDtl.DocId);
+            var doc = (List<Doc>)await _docRepository.Get(docByIdSp);
+            await _documentService.ProcessDocument(doc[0]);
+            _snackbarMessageQueue.Enqueue("Document Detail has been updated successfully");
+            await DocDetails(doc[0]);
+            _progressbarService.ClearProgressbar();
+        }
+
+        [RelayCommand]
+        public async Task CloseEditDocDtl()
+        {
+            IsEditDocDtlOpen = false;
             await Task.CompletedTask;
         }
 
