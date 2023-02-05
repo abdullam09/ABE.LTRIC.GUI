@@ -4,10 +4,101 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:ABE.LTRIC.WpfGui.ViewModels"
+             xmlns:domain="clr-namespace:ABE.LTRIC.WpfGui.Domain"
+             xmlns:Behaviors="http://schemas.microsoft.com/xaml/behaviors"
              d:DataContext="{d:DesignInstance Type=local:ReportsViewModel}"
              mc:Ignorable="d" 
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             TextElement.Foreground="{DynamicResource MaterialDesignDarkForeground}"
+             TextElement.FontWeight="Regular"
+             TextElement.FontSize="13"
+             TextOptions.TextFormattingMode="Ideal" 
+             TextOptions.TextRenderingMode="Auto"        
+             Background="{DynamicResource MaterialDesignPaper}"
+             FontFamily="{DynamicResource MaterialDesignFont}"
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
-        <TextBlock Text="Reports"/>
+    <Behaviors:Interaction.Triggers>
+        <Behaviors:EventTrigger EventName="Loaded">
+            <Behaviors:InvokeCommandAction Command="{Binding LoadCommand}"/>
+        </Behaviors:EventTrigger>
+    </Behaviors:Interaction.Triggers>
+    <Grid HorizontalAlignment="Left" Margin="20,0,20,0">
+        <ScrollViewer VerticalScrollBarVisibility="Auto">
+            <StackPanel>
+                <TextBlock
+  Padding="0,16"
+  VerticalAlignment="Center"
+  Style="{StaticResource MaterialDesignHeadline4TextBlock }"
+  Text="Reports" />
+                <Separator Width="500" HorizontalAlignment="Left"/>
+                <GroupBox Header="Reports" Margin="5" Width="1000">
+                    <StackPanel Orientation="Vertical">
+                        <StackPanel Orientation="Horizontal">
+                            <StackPanel HorizontalAlignment="Left" Orientation="Vertical" Margin="0,15,0,15" Width="500">
+
+                                <ComboBox Height="45"  materialDesign:HintAssist.Hint="Company" DisplayMemberPath="Name" SelectedValuePath="Id" ItemsSource="{Binding Companies}" 
+                                      Style="{StaticResource MaterialDesignFilledComboBox}" Margin="5,0,0,30">
+                                    <ComboBox.SelectedValue>
+                                        <Binding Mode="TwoWay" Path="ReportsFilter.CompanyId" UpdateSourceTrigger="PropertyChanged"/>
+                                    </ComboBox.SelectedValue>
+                                </ComboBox>
+
+                                <TextBox materialDesign:HintAssist.Hint="Document Number" Style="{StaticResource MaterialDesignFloatingHintTextBox}" Margin="5,0,0,10">
+                                    <TextBox.Text>
+                                        <Binding Path="ReportsFilter.DocumentNumber" UpdateSourceTrigger="PropertyChanged"/>
+                                    </TextBox.Text>
+                                </TextBox>
+                            </StackPanel>
+                            <StackPanel HorizontalAlignment="Left" Orientation="Vertical" Margin="30,15,0,15">
+                                <CheckBox Content="Filter by dates" IsChecked="{Binding ReportsFilter.IncludeDates}"  />
+
+                                <DatePicker  materialDesign:HintAssist.Hint="From Payment" materialDesign:TextFieldAssist.HasClearButton="True" Style="{StaticResource MaterialDesignFloatingHintDatePicker}">
+                                    <DatePicker.SelectedDate>
+                                        <Binding Path="ReportsFilter.From" UpdateSourceTrigger="PropertyChanged"/>
+                                    </DatePicker.SelectedDate>
+                                </DatePicker>
+
+                                <DatePicker  materialDesign:HintAssist.Hint="To Payment" materialDesign:TextFieldAssist.HasClearButton="True" Style="{StaticResource MaterialDesignFloatingHintDatePicker}">
+                                    <DatePicker.SelectedDate>
+                                        <Binding Path="ReportsFilter.To" UpdateSourceTrigger="PropertyChanged"/>
+                                    </DatePicker.SelectedDate>
+                                </DatePicker>
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                    <Button Content="Generate Report" Command="{Binding GenerateReportCommand}" Margin="5"></Button>
+                                    <Button Content="Clear" Command="{Binding ClearGenerateReportCommand}" Margin="5"></Button>
+                                </StackPanel>
+                            </StackPanel>
+                        </StackPanel>
+                        <StackPanel>
+                            <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+                                <DataGrid Name="dgReports" AutoGenerateColumns="False" CanUserAddRows="False" ItemsSource="{Binding Reports}" IsReadOnly="True" Width="970" Height="300"
+                                          ScrollViewer.CanContentScroll="True" ScrollViewer.HorizontalScrollBarVisibility="Auto">
+                                    <DataGrid.Columns>
+                                        <DataGridTemplateColumn>
+                                            <DataGridTemplateColumn.Header>
+                                                <TextBlock Text="Actions"/>
+                                            </DataGridTemplateColumn.Header>
+                                            <DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <StackPanel Orientation="Horizontal" >
+                                                        <Button Style="{StaticResource MaterialDesignIconButton}" ToolTip="Delete" Height="30" Width="30" Command="{Binding ElementName=dgReports,Path=DataContext.DeleteReportCommand}" CommandParameter="{Binding}">
+                                                            <materialDesign:PackIcon Kind="Delete" />
+                                                        </Button>
+                                                        <Button Style="{StaticResource MaterialDesignIconButton}" ToolTip="View Details" Height="30" Width="30" Command="{Binding ElementName=dgReports,Path=DataContext.ViewReportCommand}" CommandParameter="{Binding}">
+                                                            <materialDesign:PackIcon Kind="ViewList" />
+                                                        </Button>
+                                                    </StackPanel>
+                                                </DataTemplate>
+                                            </DataGridTemplateColumn.CellTemplate>
+                                        </DataGridTemplateColumn>
+                                        <DataGridTextColumn Binding="{Binding}" ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}" Header="Report name" />
+                                    </DataGrid.Columns>
+                                </DataGrid>
+                            </ScrollViewer>
+                        </StackPanel>
+                    </StackPanel>
+                </GroupBox>
+            </StackPanel>
+        </ScrollViewer>
     </Grid>
 </UserControl>
