@@ -4,10 +4,104 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:ABE.LTRIC.WpfGui.ViewModels"
+             xmlns:domain="clr-namespace:ABE.LTRIC.WpfGui.Domain"
+             xmlns:Behaviors="http://schemas.microsoft.com/xaml/behaviors"
              d:DataContext="{d:DesignInstance Type=local:SettingsViewModel}"
              mc:Ignorable="d" 
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             TextElement.Foreground="{DynamicResource MaterialDesignDarkForeground}"
+             TextElement.FontWeight="Regular"
+             TextElement.FontSize="13"
+             TextOptions.TextFormattingMode="Ideal" 
+             TextOptions.TextRenderingMode="Auto"        
+             Background="{DynamicResource MaterialDesignPaper}"
+             FontFamily="{DynamicResource MaterialDesignFont}"
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
-        <TextBlock Text="Settings"/>
+    <Behaviors:Interaction.Triggers>
+        <Behaviors:EventTrigger EventName="Loaded">
+            <Behaviors:InvokeCommandAction Command="{Binding LoadCommand}"/>
+        </Behaviors:EventTrigger>
+    </Behaviors:Interaction.Triggers>
+    <Grid HorizontalAlignment="Left" Margin="20,0,20,0">
+        <ScrollViewer VerticalScrollBarVisibility="Auto">
+            <StackPanel>
+                <TextBlock
+  Padding="0,16"
+  VerticalAlignment="Center"
+  Style="{StaticResource MaterialDesignHeadline4TextBlock }"
+  Text="Settings" />
+                <Separator Width="500" HorizontalAlignment="Left"/>
+                <GroupBox Header="Settings" Margin="5" Width="1000">
+                    <StackPanel Orientation="Vertical">
+                        <StackPanel Orientation="Horizontal">
+                            <StackPanel HorizontalAlignment="Left" Orientation="Vertical" Margin="0,15,0,15" Width="500">
+
+                                <TextBox materialDesign:HintAssist.Hint="Key" Style="{StaticResource MaterialDesignFloatingHintTextBox}" Margin="5,0,0,10">
+                                    <TextBox.Text>
+                                        <Binding Path="SettingToAdd.Key" UpdateSourceTrigger="PropertyChanged">
+                                            <Binding.ValidationRules>
+                                                <domain:NotEmptyValidationRule ValidatesOnTargetUpdated="True"/>
+                                            </Binding.ValidationRules>
+                                        </Binding>
+                                    </TextBox.Text>
+                                </TextBox>
+
+                                <TextBox materialDesign:HintAssist.Hint="Value" Style="{StaticResource MaterialDesignFloatingHintTextBox}" Margin="5,0,0,10">
+                                    <TextBox.Text>
+                                        <Binding Path="SettingToAdd.Value" UpdateSourceTrigger="PropertyChanged">
+                                            <Binding.ValidationRules>
+                                                <domain:NotEmptyValidationRule ValidatesOnTargetUpdated="True"/>
+                                            </Binding.ValidationRules>
+                                        </Binding>
+                                    </TextBox.Text>
+                                </TextBox>
+                                
+                            </StackPanel>
+                            <StackPanel HorizontalAlignment="Left" Orientation="Vertical" Margin="30,15,0,15">
+                                <DatePicker  materialDesign:HintAssist.Hint="Effective Date" materialDesign:TextFieldAssist.HasClearButton="True" Style="{StaticResource MaterialDesignFloatingHintDatePicker}">
+                                    <DatePicker.SelectedDate>
+                                        <Binding Path="SettingToAdd.EffectiveDate" UpdateSourceTrigger="PropertyChanged">
+                                            <Binding.ValidationRules>
+                                                <domain:DateValidationRule ValidatesOnTargetUpdated="True" />
+                                            </Binding.ValidationRules>
+                                        </Binding>
+                                    </DatePicker.SelectedDate>
+                                </DatePicker>
+                                
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                    <Button Content="Add Setting" Command="{Binding AddSettingCommand}" Margin="5,20,0,0"></Button>
+                                </StackPanel>
+                            </StackPanel>
+                        </StackPanel>
+                        <StackPanel>
+                            <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+                                <DataGrid Name="dgSettings" AutoGenerateColumns="False" CanUserAddRows="False" ItemsSource="{Binding Settings}" IsReadOnly="True" Width="970" Height="300"
+                                          ScrollViewer.CanContentScroll="True" ScrollViewer.HorizontalScrollBarVisibility="Auto">
+                                    <DataGrid.Columns>
+                                        <DataGridTemplateColumn>
+                                            <DataGridTemplateColumn.Header>
+                                                <TextBlock Text="Actions"/>
+                                            </DataGridTemplateColumn.Header>
+                                            <DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <StackPanel Orientation="Horizontal" >
+                                                        <Button Style="{StaticResource MaterialDesignIconButton}" ToolTip="Delete" Height="30" Width="30" Command="{Binding ElementName=dgSettings,Path=DataContext.DeleteSettingsCommand}" CommandParameter="{Binding}">
+                                                            <materialDesign:PackIcon Kind="Delete" />
+                                                        </Button>
+                                                    </StackPanel>
+                                                </DataTemplate>
+                                            </DataGridTemplateColumn.CellTemplate>
+                                        </DataGridTemplateColumn>
+                                        <DataGridTextColumn Binding="{Binding Key}" ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}" Header="Key" />
+                                        <DataGridTextColumn Binding="{Binding Value}" ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}" Header="Value" />
+                                        <DataGridTextColumn Binding="{Binding EffectiveDate, StringFormat=d}" ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}" Header="Effective Date" />
+                                    </DataGrid.Columns>
+                                </DataGrid>
+                            </ScrollViewer>
+                        </StackPanel>
+                    </StackPanel>
+                </GroupBox>
+            </StackPanel>
+        </ScrollViewer>
     </Grid>
 </UserControl>

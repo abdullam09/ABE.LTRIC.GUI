@@ -52,13 +52,13 @@
                             <StackPanel HorizontalAlignment="Left" Orientation="Vertical" Margin="30,15,0,15">
                                 <CheckBox Content="Filter by dates" IsChecked="{Binding ReportsFilter.IncludeDates}"  />
 
-                                <DatePicker  materialDesign:HintAssist.Hint="From Payment" materialDesign:TextFieldAssist.HasClearButton="True" Style="{StaticResource MaterialDesignFloatingHintDatePicker}">
+                                <DatePicker  materialDesign:HintAssist.Hint="From" materialDesign:TextFieldAssist.HasClearButton="True" Style="{StaticResource MaterialDesignFloatingHintDatePicker}">
                                     <DatePicker.SelectedDate>
                                         <Binding Path="ReportsFilter.From" UpdateSourceTrigger="PropertyChanged"/>
                                     </DatePicker.SelectedDate>
                                 </DatePicker>
 
-                                <DatePicker  materialDesign:HintAssist.Hint="To Payment" materialDesign:TextFieldAssist.HasClearButton="True" Style="{StaticResource MaterialDesignFloatingHintDatePicker}">
+                                <DatePicker  materialDesign:HintAssist.Hint="To" materialDesign:TextFieldAssist.HasClearButton="True" Style="{StaticResource MaterialDesignFloatingHintDatePicker}">
                                     <DatePicker.SelectedDate>
                                         <Binding Path="ReportsFilter.To" UpdateSourceTrigger="PropertyChanged"/>
                                     </DatePicker.SelectedDate>
