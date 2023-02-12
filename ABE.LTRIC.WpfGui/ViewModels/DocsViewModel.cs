@@ -246,6 +246,31 @@ namespace ABE.LTRIC.WpfGui.ViewModels
         }
 
         [RelayCommand]
+        public async Task RefreshDoc(Doc doc)
+        {
+            _progressbarService.SetProgressbar("please wait");
+            var docDetailsSp = new DocDtlsByDocId(doc.Id);
+            doc.DocDtls = (List<DocDtl>)await _docDtlRepository.Get(docDetailsSp);
+            await _documentService.ProcessDocument(doc);
+            _snackbarMessageQueue.Enqueue("Document has been refreshed successfully");
+            _progressbarService.ClearProgressbar();
+        }
+
+        [RelayCommand]
+        public async Task RefreshAllDocs()
+        {
+            _progressbarService.SetProgressbar("please wait");
+            foreach (var doc in docs)
+            {
+                var docDetailsSp = new DocDtlsByDocId(doc.Id);
+                doc.DocDtls = (List<DocDtl>)await _docDtlRepository.Get(docDetailsSp);
+                await _documentService.ProcessDocument(doc);
+            }
+            _snackbarMessageQueue.Enqueue($"({docs.Count}) Document(s) have been refreshed successfully");
+            _progressbarService.ClearProgressbar();
+        }
+
+        [RelayCommand]
         public async Task AddNewDoc()
         {
             _progressbarService.SetProgressbar("please wait");

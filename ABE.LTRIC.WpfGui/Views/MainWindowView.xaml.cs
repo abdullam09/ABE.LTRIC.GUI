@@ -30,6 +30,9 @@ namespace ABE.LTRIC.WpfGui
         {
             DataContext = App.Current.ServiceProvider.GetService<MainWindowViewModel>();
             InitializeComponent();
+            sidebar.SelectedIndex = 0;
+            var selected = sidebar.SelectedItem as NavButton;
+            navframe.Navigate(selected.Navlink);
         }
 
         private void sidebar_SelectionChanged(object sender, SelectionChangedEventArgs e)

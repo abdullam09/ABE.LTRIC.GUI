@@ -112,8 +112,8 @@ namespace ABE.LTRIC.WpfGui.Services
                             InsertDate = DateTime.Now,
                             RecordDate = processDate.Date,
                             RefundDate = processDate.Date,
-                            EarlySattleToBank = 0,
-                            RecoveredFromCompany = 0,
+                            EarlySattleToBank = preDocDtl.EarlySattleToBank,
+                            RecoveredFromCompany = preDocDtl.RecoveredFromCompany,
                             LTR_Period = 1,
                             OD_Period = 1,
                             LTR_Intrest = Math.Round(ltr_i, 4),
@@ -124,6 +124,7 @@ namespace ABE.LTRIC.WpfGui.Services
                             TotalChargeToBank = Math.Round(preDocDtl.TotalChargeToBank + ltr_i + od_i - preDocDtl.EarlySattleToBank, 4),
                             TotalChargeToCompany = Math.Round(preDocDtl.TotalChargeToCompany - preDocDtl.RecoveredFromCompany + od_i + ltr_i, 4),
                         };
+
                         doc.DocDtls.Add(docDtl);
 
                     }

@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:ABE.LTRIC.WpfGui.ViewModels"
+             xmlns:converters="clr-namespace:ABE.LTRIC.WpfGui.Converters"
              xmlns:domain="clr-namespace:ABE.LTRIC.WpfGui.Domain"
              xmlns:Behaviors="http://schemas.microsoft.com/xaml/behaviors"
              d:DataContext="{d:DesignInstance Type=local:SettingsViewModel}"
@@ -17,6 +18,9 @@
              Background="{DynamicResource MaterialDesignPaper}"
              FontFamily="{DynamicResource MaterialDesignFont}"
              d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <converters:AllValidConverter x:Key="AllValidConverter"/>
+    </UserControl.Resources>
     <Behaviors:Interaction.Triggers>
         <Behaviors:EventTrigger EventName="Loaded">
             <Behaviors:InvokeCommandAction Command="{Binding LoadCommand}"/>
@@ -36,7 +40,7 @@
                         <StackPanel Orientation="Horizontal">
                             <StackPanel HorizontalAlignment="Left" Orientation="Vertical" Margin="0,15,0,15" Width="500">
 
-                                <TextBox materialDesign:HintAssist.Hint="Key" Style="{StaticResource MaterialDesignFloatingHintTextBox}" Margin="5,0,0,10">
+                                <TextBox x:Name="txtKey" materialDesign:HintAssist.Hint="Key" Style="{StaticResource MaterialDesignFloatingHintTextBox}" Margin="5,0,0,10">
                                     <TextBox.Text>
                                         <Binding Path="SettingToAdd.Key" UpdateSourceTrigger="PropertyChanged">
                                             <Binding.ValidationRules>
@@ -46,7 +50,7 @@
                                     </TextBox.Text>
                                 </TextBox>
 
-                                <TextBox materialDesign:HintAssist.Hint="Value" Style="{StaticResource MaterialDesignFloatingHintTextBox}" Margin="5,0,0,10">
+                                <TextBox x:Name="txtValue" materialDesign:HintAssist.Hint="Value" Style="{StaticResource MaterialDesignFloatingHintTextBox}" Margin="5,0,0,10">
                                     <TextBox.Text>
                                         <Binding Path="SettingToAdd.Value" UpdateSourceTrigger="PropertyChanged">
                                             <Binding.ValidationRules>
@@ -58,9 +62,9 @@
                                 
                             </StackPanel>
                             <StackPanel HorizontalAlignment="Left" Orientation="Vertical" Margin="30,15,0,15">
-                                <DatePicker  materialDesign:HintAssist.Hint="Effective Date" materialDesign:TextFieldAssist.HasClearButton="True" Style="{StaticResource MaterialDesignFloatingHintDatePicker}">
+                                <DatePicker x:Name="txtEffectiveDate"  materialDesign:HintAssist.Hint="Effective Date" materialDesign:TextFieldAssist.HasClearButton="True" Style="{StaticResource MaterialDesignFloatingHintDatePicker}">
                                     <DatePicker.SelectedDate>
-                                        <Binding Path="SettingToAdd.EffectiveDate" UpdateSourceTrigger="PropertyChanged">
+                                        <Binding Path="SettingToAdd.EffectiveDate" UpdateSourceTrigger="LostFocus">
                                             <Binding.ValidationRules>
                                                 <domain:DateValidationRule ValidatesOnTargetUpdated="True" />
                                             </Binding.ValidationRules>
@@ -69,7 +73,15 @@
                                 </DatePicker>
                                 
                                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                                    <Button Content="Add Setting" Command="{Binding AddSettingCommand}" Margin="5,20,0,0"></Button>
+                                    <Button Content="Add Setting" Command="{Binding AddSettingCommand}" Margin="5,20,0,0">
+                                        <Button.IsEnabled>
+                                            <MultiBinding  Converter="{StaticResource AllValidConverter}">
+                                                <Binding ElementName="txtKey" Path="(Validation.HasError)"/>
+                                                <Binding ElementName="txtValue" Path="(Validation.HasError)"/>
+                                                <Binding ElementName="txtEffectiveDate" Path="(Validation.HasError)"/>
+                                            </MultiBinding>
+                                        </Button.IsEnabled>
+                                    </Button>
                                 </StackPanel>
                             </StackPanel>
                         </StackPanel>
