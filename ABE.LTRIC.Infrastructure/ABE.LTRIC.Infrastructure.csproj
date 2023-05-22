@@ -33,6 +33,7 @@
 
 	<ItemGroup>
 	  <Folder Include="Migrations\initial\" />
+	  <Folder Include="Migrations\Sql\" />
 	</ItemGroup>
 
 </Project>
